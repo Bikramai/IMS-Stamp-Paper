@@ -1,0 +1,184 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load custom_tags %}
+{% load crispy_forms_tags %}
+{% load humanize %}
+
+{% block subtitle %}
+    Judicial Transaction #{{ object.pk }}
+{% endblock %}
+
+{% block page_heading_right %}
+    <a class="btn btn-primary" href="{% url 'admins:transfer-judicial-list' %}"><i class="fa fa-arrow-left"></i> Go Back</a>
+{% endblock %}
+
+
+{% block content %}
+
+    <div class="row">
+        <div class="col">
+            <div class="card">
+                <div class="card-body">
+                    <div class="col">
+                        <p class="mb-0 text-center h3">
+                            <i class="bx bx-archive mr-2"></i>
+                        </p>
+                        <p class="mb-0 text-center h5">Source Treasury</p>
+                        <p class="mb-0 text-center">{{ object.source_treasury }}</p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div class="col">
+            <div class="card">
+                <div class="card-body">
+                    <div class="col">
+                        <p class="mb-0 text-center h3">
+                            <i class="bx bx-archive mr-2"></i>
+                        </p>
+                        <p class="mb-0 text-center h5">Destination Treasury</p>
+                        <p class="mb-0 text-center">{{ object.destination_treasury }}</p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div class="col">
+            <div class="card">
+                <div class="card-body">
+                    <div class="col">
+                        <p class="mb-0 text-center h3">
+                            <i class="fa fa-money"></i>
+                        </p>
+                        <p class="mb-0 text-center h5">Total Price</p>
+                        <p class="mb-0 text-center">{{ object.amount|intcomma }}</p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div class="col">
+            <div class="card">
+                <div class="card-body">
+                    <div class="col">
+                        <p class="mb-0 text-center h3">
+                            <i class="fa fa-sort-amount-asc"></i>
+                        </p>
+                        <p class="mb-0 text-center h5">Total Quantity</p>
+                        <p class="mb-0 text-center">{{ object.quantity|intcomma }}</p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="row mt-2">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-borderless table-striped table-hover">
+                            <tr class="border-bottom bg-white">
+                                <th>Stamp Paper</th>
+                                <th>Quantity
+                                </th>
+                                <th>Price
+                                </th>
+                            </tr>
+                            <tr>
+                                <td>RS 25</td>
+                                <td>{{ object.j25|intcomma }}</td>
+                                <td>{% multiply object.j25 25 %}</td>
+                            </tr>
+                            <tr>
+                                <td>RS 30</td>
+                                <td>{{ object.j30|intcomma }}</td>
+                                <td>{% multiply object.j30 30 %}</td>
+                            </tr>
+                            <tr>
+                                <td>RS 35</td>
+                                <td>{{ object.j35|intcomma }}</td>
+                                <td>{% multiply object.j35 35 %}</td>
+                            </tr>
+                            <tr>
+                                <td>RS 50</td>
+                                <td>{{ object.j50|intcomma }}</td>
+                                <td>{% multiply object.j50 50 %}</td>
+                            </tr>
+                            <tr>
+                                <td>RS 60</td>
+                                <td>{{ object.j60|intcomma }}</td>
+                                <td>{% multiply object.j60 60 %}</td>
+                            </tr>
+                            <tr>
+                                <td>RS 75</td>
+                                <td>{{ object.j75|intcomma }}</td>
+                                <td>{% multiply object.j75 75 %}</td>
+                            </tr>
+                            <tr>
+                                <td>RS 100</td>
+                                <td>{{ object.j100|intcomma }}</td>
+                                <td>{% multiply object.j100 100 %}</td>
+                            </tr>
+                            <tr>
+                                <td>RS 125</td>
+                                <td>{{ object.j125|intcomma }}</td>
+                                <td>{% multiply object.j125 125 %}</td>
+                            </tr>
+                            <tr>
+                                <td>RS 150</td>
+                                <td>{{ object.j150|intcomma }}</td>
+                                <td>{% multiply object.j150 150 %}</td>
+                            </tr>
+                            <tr>
+                                <td>RS 200</td>
+                                <td>{{ object.j200|intcomma }}</td>
+                                <td>{% multiply object.j200 200 %}</td>
+                            </tr>
+                            <tr>
+                                <td>RS 500</td>
+                                <td>{{ object.j500|intcomma }}</td>
+                                <td>{% multiply object.j500 500 %}</td>
+                            </tr>
+                            <tr>
+                                <td>RS 1000</td>
+                                <td>{{ object.j1000|intcomma }}</td>
+                                <td>{% multiply object.j1000 1000 %}</td>
+                            </tr>
+                            <tr>
+                                <td>RS 2000</td>
+                                <td>{{ object.j2000|intcomma }}</td>
+                                <td>{% multiply object.j2000 2000 %}</td>
+                            </tr>
+                            <tr>
+                                <td>RS 3000</td>
+                                <td>{{ object.j3000|intcomma }}</td>
+                                <td>{% multiply object.j3000 3000 %}</td>
+                            </tr>
+                            <tr>
+                                <td>RS 5000</td>
+                                <td>{{ object.j5000|intcomma }}</td>
+                                <td>{% multiply object.j5000 5000 %}</td>
+                            </tr>
+                            <tr>
+                                <td>RS 10000</td>
+                                <td>{{ object.j10000|intcomma }}</td>
+                                <td>{% multiply object.j10000 10000 %}</td>
+                            </tr>
+                           <tr>
+                                <td>RS 15000</td>
+                                <td>{{ object.j15000|intcomma }}</td>
+                                <td>{% multiply object.j15000 15000 %}</td>
+                            </tr>
+
+
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

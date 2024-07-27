@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block subtitle %}
+    Request Update
+{% endblock %}
+
+{% block page_heading %}
+    Non Judicial Request #{{ pk }}
+{% endblock %}
+
+{% block page_heading_right %}
+    <a href="{% url 'admins:request-detail' pk %}">
+        <i class="fa fa-arrow-left"></i> back to request
+    </a>
+{% endblock %}
+
+{% block content %}
+
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-body">
+                    <form method="post">
+                        {% csrf_token %}
+
+                        {% crispy form %}
+
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+
+

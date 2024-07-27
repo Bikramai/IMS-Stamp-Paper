@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block subtitle %}
+    Non Judicial Request Delete
+{% endblock %}
+
+{% block page_heading %}
+   Non Judicial Request #{{ object.pk }}
+{% endblock %}
+
+{% block page_heading_right %}
+    <a href="{% url 'admins:request-list' %}">
+        <i class="fa fa-arrow-left"></i> back to Request
+    </a>
+{% endblock %}
+
+{% block content %}
+
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body">
+
+                        <p class="text-danger">
+                            <b>
+                                Are you sure? you want to Cancel request#{{ object.pk }} permanently.
+                            </b>
+                        </p>
+
+                        
+                        <div class="">
+                            <a href="{% url 'admins:request-confirmed' object.pk %}" class="btn btn-danger"><i class="fa fa-trash"></i> Yes</a>
+                            <a href="{% url 'admins:request-list' %}" class="btn btn-success"><i class=""></i> Cancel</a>
+                        </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+
+

@@ -1,0 +1,119 @@
+{% load humanize %}
+{% load static %}
+{% load custom_tags %}
+
+<html>
+<head>
+    <title>Consolidated Report</title>
+    <link rel="icon" href="{% static 'core/logos/logo.png' %}">
+    <link rel="stylesheet" href="{% static 'core/css/app.min.css' %}">
+    <link rel="stylesheet" href="{% static 'core/css/bootstrap.min.css' %}">
+
+    <link rel="stylesheet" href="{% static 'core/css/icons.min.css' %}">
+    <link rel="stylesheet" href="{% static 'print.css' %}" media="print">
+</head>
+<body>
+<div class="container py-4">
+
+    <div class="row justify-content-end">
+        <div class="col-12 text-right">
+            <button id="print-button" class="btn btn-primary btn-sm shadow-lg">
+                <i class="fa fa-print"></i> Print Report
+            </button>
+        </div>
+    </div>
+
+    {# RECEIVER #}
+    <div class="row">
+        {# HEAD #}
+        <div class="col-sm-12 text-center">
+            <img alt="" src="{% static 'core/logos/logo.png' %}" height="80">
+            <p class="mt-2 mb-0 h3">KPK Revenue Department</p>
+            <p class="mb-0 h5">(Stamps Inventory Management System)</p>
+        </div>
+
+        {# SUB HEAD - LEFT #}
+        <div class="col-sm-12">
+            <div class="row">
+
+                <div class="col-sm-6">
+                    <div class="">
+                        <p class="mb-0">Report Type</p>
+                        <h5>Consolidated</h5>
+                    </div>
+                </div>
+                <div class="col-sm-6 text-right">
+                    <div class="">
+                        <div class="">
+                            <p class="mb-0">Before</p>
+                            <h5>{% now 'd/M/Y' %}</h5>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <hr>
+    {# CART INFO #}
+    <div class="card">
+        <div class="card-body border border-bottom text-center">
+            <h5 class="mb-0"><b>Mansehra</b></h5>
+        </div>
+        <div class="card-body p-0">
+            <div class="row">
+                <div class="col-sm-6 pr-0">
+                    <table class="table table-bordered" style="margin-bottom: 0px;">
+                        <tr class="bg-light">
+                            <th colspan="3"><small>Judicial Records</small></th>
+                        </tr>
+                        <tr>
+                            <th>100</th>
+                            <td>00</td>
+                            <td>00</td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="col-sm-6 pl-0">
+                    <table class="table table-bordered" style="margin-bottom: 0px;">
+                        <tr class="bg-light">
+                            <th colspan="3"><small>Non-Judicial Records</small></th>
+                        </tr>
+                        <tr>
+                            <th>15</th>
+                            <td>00</td>
+                            <td>00</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <hr>
+    <div class="row">
+        <div class="col-sm-12 text-center">
+            <p class="mb-0">This report is generated from SIMS (KPK)</p>
+        </div>
+    </div>
+
+
+</div>
+
+<script src="{% static 'core/libs/jquery/jquery.min.js' %}"></script>
+<script src="{% static 'core/libs/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+<script src="{% static 'core/libs/metismenu/metisMenu.min.js' %}"></script>
+<script src="{% static 'core/libs/simplebar/simplebar.min.js' %}"></script>
+<script src="{% static 'core/libs/node-waves/waves.min.js' %}"></script>
+
+</body>
+</html>
+
+<script>
+    $(document).ready(function () {
+        $('#print-button').on('click', function () {
+            window.print(); // Trigger the browser's print dialog
+        });
+    });
+</script>

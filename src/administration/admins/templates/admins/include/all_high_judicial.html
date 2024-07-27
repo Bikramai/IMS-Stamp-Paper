@@ -1,0 +1,54 @@
+{% load custom_tags %}
+
+<thead class="border-bottom">
+<tr>
+    <th><i class="fa fa-home"></i> Treasury</th>
+    <th>15000</th>
+    <th>10000</th>
+    <th>5000</th>
+    <th>3000</th>
+    <th>2000</th>
+</tr>
+</thead>
+<tbody>
+{% for object_ in object_list %}
+    <tr>
+        <td>
+            <a href="#">
+                <b>{{ object_.treasury }}</b>
+            </a>
+        </td>
+        <td>{{ object_.j15000 }}</td>
+        <td>{{ object_.j10000 }}</td>
+        <td>{{ object_.j5000 }}</td>
+        <td>{{ object_.j3000 }}</td>
+        <td>{{ object_.j2000 }}</td>
+    </tr>
+{% endfor %}
+</tbody>
+<tfoot class="border-top">
+<tr>
+    <th>
+        <b>
+            QUANTITIES
+        </b>
+    </th>
+    <th>{{ sums.j15000 }}</th>
+    <th>{{ sums.j10000 }}</th>
+    <th>{{ sums.j5000 }}</th>
+    <th>{{ sums.j3000 }}</th>
+    <th>{{ sums.j2000 }}</th>
+</tr>
+<tr>
+    <th>
+        <b>
+            TOTALS
+        </b>
+    </th>
+    <th>{{ amounts.j15000 }}</th>
+    <th>{{ amounts.j10000 }}</th>
+    <th>{{ amounts.j5000 }}</th>
+    <th>{{ amounts.j3000 }}</th>
+    <th>{{ amounts.j2000 }}</th>
+</tr>
+</tfoot>

@@ -1,0 +1,66 @@
+<div class="collapse navbar-collapse" id="topnav-menu-content">
+    <ul class="navbar-nav">
+        <li class="nav-item">
+            <a class="nav-link dropdown-toggle arrow-none" href="{% url 'admins:dashboard' %}">
+                <i class="bx bx-home-circle mr-2"></i>Dashboard
+            </a>
+        </li>
+        <li class="nav-item ">
+            <a class="nav-link dropdown-toggle arrow-none" href="{% url 'admins:user-list' %}">
+                <i class="bx bx-user mr-2"></i>Users
+            </a>
+        </li>
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle arrow-none" href="#" id="topnav-pages" role="button"
+               data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <i class="bx bx-transfer mr-2"></i>Non Judicial
+                <div class="arrow-down"></div>
+            </a>
+            <div class="dropdown-menu" aria-labelledby="topnav-pages">
+                <a href="{% url 'admins:stock-in-list' %}" class="dropdown-item">Stock In</a>
+                <a href="{% url 'admins:stock-out-list' %}" class="dropdown-item">Stock Out</a>
+                <a href="{% url 'admins:transfer-list' %}" class="dropdown-item">Transfer</a>
+                <a href="{% url 'admins:request-list' %}" class="dropdown-item">Requests</a>
+            </div>
+        </li>
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle arrow-none" href="#" id="topnav-pages" role="button"
+               data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <i class="bx bx-transfer mr-2"></i>Judicial
+                <div class="arrow-down"></div>
+            </a>
+            <div class="dropdown-menu" aria-labelledby="topnav-pages">
+                <a href="{% url 'admins:stock-in-judicial-list' %}" class="dropdown-item">Stock In</a>
+                <a href="{% url 'admins:stock-out-judicial-list' %}" class="dropdown-item">Stock Out</a>
+                <a href="{% url 'admins:transfer-judicial-list' %}" class="dropdown-item">Transfer</a>
+                <a href="{% url 'admins:request_judicial-list' %}" class="dropdown-item">Requests</a>
+            </div>
+        </li>
+
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle arrow-none" href="#" id="topnav-pages" role="button"
+               data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <i class="bx bx-receipt mr-2"></i>Reports
+                <div class="arrow-down"></div>
+            </a>
+            <div class="dropdown-menu" aria-labelledby="topnav-pages">
+                <a href="{% url 'admins:overall-reports-judicial' %}" class="dropdown-item">Judicial</a>
+                <a href="{% url 'admins:overall-reports' %}" class="dropdown-item">Non Judicial</a>
+                <a href="{% url 'admins:consolidated-reports' %}" class="dropdown-item">Consolidated</a>
+            </div>
+        </li>
+
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle arrow-none" href="#" id="topnav-pages" role="button"
+               data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <i class="bx bx-globe mr-2"></i>Management
+                <div class="arrow-down"></div>
+            </a>
+            <div class="dropdown-menu" aria-labelledby="topnav-pages">
+                <a href="{% url 'admins:district-list' %}" class="dropdown-item">Districts</a>
+                <a href="{% url 'admins:treasury-list' %}" class="dropdown-item">Treasuries</a>
+            </div>
+        </li>
+
+    </ul>
+</div>

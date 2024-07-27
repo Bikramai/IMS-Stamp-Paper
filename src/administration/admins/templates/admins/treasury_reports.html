@@ -1,0 +1,247 @@
+{% extends 'base.html' %}
+{% load humanize %}
+{% load crispy_forms_tags %}
+{% load custom_tags %}
+
+{% block subtitle %}
+    Reports
+{% endblock %}
+
+{% block content %}
+
+    <div class="row">
+        <div class="col-12">
+            <div class="page-title-box">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <p class="mb-0 font-size-24">
+                            {{ report_type }} Reports
+                        </p>
+                    </div>
+                    <div class="col-sm-6 text-right">
+                        <a href="{% url 'admins:treasury-detail' object.pk %}" class="">
+                            <i class="fa fa-arrow-left"></i> Back to {{ object.city }}
+                        </a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+
+            {# OVERALL #}
+            <div class="card">
+                <div class="card-body border-bottom">
+
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <p class="mb-0">
+                                <b>Complete Denomination Report</b> -
+                                <a class=""
+                                   href="{% url 'admins:treasury-invoice' object.pk %}?type=all">
+                                    <i class="fa fa-brush"></i>
+                                </a>
+                            </p>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="row justify-content-end">
+                                <div class="cols text-right mx-4">
+                                    <p class="mb-0"><small>Total</small></p>
+                                    <p class="mb-0"><b><i class="bx bx-package"></i> {{ all_count|intcomma }}</b></p>
+                                </div>
+                                <div class="cols text-right mx-4">
+                                    <p class="mb-0"><small>Amount</small></p>
+                                    <p class="mb-0"><b><i class="bx bx-money"></i> {{ all_amount|intcomma }}</b></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+
+                    <div class="table-responsive">
+
+                        <table class="table table-borderless table-hover">
+                            <thead class="border-bottom">
+                            <tr>
+                                <th>50000</th>
+                                <th>25000</th>
+                                <th>10000</th>
+                                <th>5000</th>
+                                <th>3000</th>
+                                <th>2000</th>
+                                <th>1000</th>
+                                <th>750</th>
+                                <th>500</th>
+                                <th>400</th>
+                                <th>300</th>
+                                <th>250</th>
+                                <th>200</th>
+                                <th>150</th>
+                                <th>100</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+
+                            <tr>
+                                <td>{{ object.s50000|cool_num }}</td>
+                                <td>{{ object.s25000|cool_num }}</td>
+                                <td>{{ object.s10000|cool_num }}</td>
+                                <td>{{ object.s5000|cool_num }}</td>
+                                <td>{{ object.s3000|cool_num }}</td>
+                                <td>{{ object.s2000|cool_num }}</td>
+                                <td>{{ object.s1000|cool_num }}</td>
+                                <td>{{ object.s750|cool_num }}</td>
+                                <td>{{ object.s500|cool_num }}</td>
+                                <td>{{ object.s400|cool_num }}</td>
+                                <td>{{ object.s300|cool_num }}</td>
+                                <td>{{ object.s250|cool_num }}</td>
+                                <td>{{ object.s200|cool_num }}</td>
+                                <td>{{ object.s150|cool_num }}</td>
+                                <td>{{ object.s100|cool_num }}</td>
+                            </tr>
+
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            {# LOW #}
+            <div class="card">
+                <div class="card-body border-bottom">
+
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <p class="mb-0">
+                                <b>Low Denomination Report</b> -
+                                <a class=""
+                                   href="{% url 'admins:treasury-invoice' object.pk %}?type=low">
+                                    <i class="fa fa-brush"></i>
+                                </a>
+                            </p>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="row justify-content-end">
+                                <div class="cols text-right mx-4">
+                                    <p class="mb-0"><small>Total</small></p>
+                                    <p class="mb-0"><b><i class="bx bx-package"></i> {{ low_count|intcomma }}</b></p>
+                                </div>
+                                <div class="cols text-right mx-4">
+                                    <p class="mb-0"><small>Amount</small></p>
+                                    <p class="mb-0"><b><i class="bx bx-money"></i> {{ low_amount|intcomma }}</b></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="card-body">
+
+                    <div class="table-responsive">
+
+                        <table class="table table-borderless table-hover">
+                            <thead class="border-bottom">
+                            <tr>
+                                <th>1000</th>
+                                <th>750</th>
+                                <th>500</th>
+                                <th>400</th>
+                                <th>300</th>
+                                <th>250</th>
+                                <th>200</th>
+                                <th>150</th>
+                                <th>100</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+
+                            <tr>
+                                <td>{{ object.s1000|cool_num }}</td>
+                                <td>{{ object.s750|cool_num }}</td>
+                                <td>{{ object.s500|cool_num }}</td>
+                                <td>{{ object.s400|cool_num }}</td>
+                                <td>{{ object.s300|cool_num }}</td>
+                                <td>{{ object.s250|cool_num }}</td>
+                                <td>{{ object.s200|cool_num }}</td>
+                                <td>{{ object.s150|cool_num }}</td>
+                                <td>{{ object.s100|cool_num }}</td>
+                            </tr>
+                            </tbody>
+                        </table>
+
+
+                    </div>
+                </div>
+            </div>
+
+            {# HIGH #}
+            <div class="card">
+                <div class="card-body border-bottom">
+
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <p class="mb-0">
+                                <b>High Denomination Report</b> -
+                                <a class=""
+                                   href="{% url 'admins:treasury-invoice' object.pk %}?type=high">
+                                    <i class="fa fa-brush"></i>
+                                </a>
+                            </p>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="row justify-content-end">
+                                <div class="cols text-right mx-4">
+                                    <p class="mb-0"><small>Total</small></p>
+                                    <p class="mb-0"><b><i class="bx bx-package"></i> {{ high_count|intcomma }}</b></p>
+                                </div>
+                                <div class="cols text-right mx-4">
+                                    <p class="mb-0"><small>Amount</small></p>
+                                    <p class="mb-0"><b><i class="bx bx-money"></i> {{ high_amount|intcomma }}</b></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="card-body">
+
+                    <div class="table-responsive">
+
+                        <table class="table table-borderless table-hover">
+                            <thead class="border-bottom">
+                            <tr>
+                                <th>50000</th>
+                                <th>25000</th>
+                                <th>10000</th>
+                                <th>5000</th>
+                                <th>3000</th>
+                                <th>2000</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+
+                            <tr>
+                                <td>{{ object.s50000|cool_num }}</td>
+                                <td>{{ object.s25000|cool_num }}</td>
+                                <td>{{ object.s10000|cool_num }}</td>
+                                <td>{{ object.s5000|cool_num }}</td>
+                                <td>{{ object.s3000|cool_num }}</td>
+                                <td>{{ object.s2000|cool_num }}</td>
+                            </tr>
+
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+{% endblock %}

@@ -1,0 +1,533 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% load custom_tags %}
+{% load humanize %}
+
+{% block subtitle %} Dashboard {% endblock %}
+
+{% block content %}
+
+    {# BUTTONS #}
+    <div class="row mb-3">
+        <div class="col-sm-12 text-right">
+            {% if request.user.is_staff %}
+                <a href="{% url 'admins:treasury-report-judicial' request.user.treasury.pk %}"
+                   class="btn btn-sm btn-light">
+                    <i class="bx bx-printer"></i> Judicial Reports
+                </a>
+                <a href="{% url 'admins:treasury-report' request.user.treasury.pk %}"
+                   class="btn btn-sm btn-light">
+                    <i class="bx bx-printer"></i> Non Judicial Reports
+                </a>
+            {% endif %}
+        </div>
+    </div>
+
+    {# TOP STATS #}
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-lg-4">
+                            <div class="media">
+                                <div class="mr-3">
+                                    {% if request.user.profile_image %}
+                                        <img src="{{ request.user.profile_image.url }}" alt=""
+                                             class="avatar-md rounded-circle img-thumbnail">
+                                    {% else %}
+                                        <img src="https://placehold.co/50" alt=""
+                                             class="avatar-md rounded-circle img-thumbnail">
+                                    {% endif %}
+
+                                </div>
+                                <div class="media-body align-self-center">
+                                    <div class="text-muted">
+                                        <p class="mb-1">Welcome to your treasury. </p>
+                                        <h5 class="mb-1">{{ request.user.get_full_name }}</h5>
+                                        <p class="mb-0 font-weight-bolder">{{ request.user.treasury }}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-8 align-self-center">
+                            <div class="text-lg-center mt-4 mt-lg-0">
+                                <div class="row">
+                                    <div class="col">
+                                        <div>
+                                            <p class="text-muted text-truncate mb-2">
+                                                <i class="fa fa-arrow-down text-success"></i>
+                                            </p>
+                                            <h5 class="mb-0">
+                                                <a href="{% url 'staff:stock-in-list' %}">
+                                                    <i class="bx bx-money"></i>
+                                                    {{ request.user.treasury.get_stock_in_amount|cool_num }}
+                                                    -
+                                                    <i class="bx bx-package"></i>
+                                                    {{ request.user.treasury.get_transactions_stock_in_count|cool_num }}
+                                                </a>
+                                                <br>
+                                                <a href="{% url 'staff:stock-in-judicial-list' %}">
+                                                    <i class="bx bx-money"></i>
+                                                    {{ request.user.treasury.get_stock_in_amount_judicial|cool_num }}
+                                                    -
+                                                    <i class="bx bx-package"></i>
+                                                    {{ request.user.treasury.get_transactions_stock_in_count_judicial|cool_num }}
+                                                </a>
+                                            </h5>
+                                        </div>
+                                    </div>
+                                    <div class="col">
+                                        <div>
+                                            <p class="text-muted text-truncate mb-2">
+                                                <i class="fa fa-arrow-up text-danger"></i>
+                                            </p>
+                                            <h5 class="mb-0">
+                                                <a href="{% url 'staff:stock-out-list' %}">
+                                                    <i class="bx bx-money"></i>
+                                                    {{ request.user.treasury.get_stock_out_amount|cool_num }}
+                                                    -
+                                                    <i class="bx bx-package"></i>
+                                                    {{ request.user.treasury.get_transactions_stock_out_count|cool_num }}
+                                                </a>
+                                                <br>
+                                                <a href="{% url 'staff:stock-out-judicial-list' %}">
+                                                    <i class="bx bx-money"></i>
+                                                    {{ request.user.treasury.get_stock_out_amount_judicial|cool_num }}
+                                                    -
+                                                    <i class="bx bx-package"></i>
+                                                    {{ request.user.treasury.get_transactions_stock_out_count_judicial|cool_num }}
+                                                </a>
+                                            </h5>
+                                        </div>
+                                    </div>
+                                    <div class="col">
+                                        <div>
+                                            <p class="text-muted text-truncate mb-2">
+                                                <i class="bx bx-transfer text-primary"></i>
+                                            </p>
+                                            <h5 class="mb-0">
+                                                <a href="{% url 'staff:transfer-list' %}">
+                                                    <i class="bx bx-money"></i>
+                                                    {{ request.user.treasury.get_transfer_amount|cool_num }}
+                                                    -
+                                                    <i class="bx bx-package"></i>
+                                                    {{ request.user.treasury.get_transactions_transfers_count|cool_num }}
+                                                </a>
+                                                <a href="{% url 'staff:transfer-judicial-list' %}">
+                                                    <br>
+                                                    <i class="bx bx-money"></i>
+                                                    {{ request.user.treasury.get_transfer_amount_judicial|cool_num }}
+                                                    -
+                                                    <i class="bx bx-package"></i>
+                                                    {{ request.user.treasury.get_transactions_transfers_count_judicial|cool_num }}
+                                                </a>
+                                            </h5>
+                                        </div>
+                                    </div>
+                                    <div class="col">
+                                        <div>
+                                            <p class="text-muted text-truncate mb-2">
+                                                <i class="fa fa-exclamation-circle"></i>
+                                            </p>
+                                            <h5 class="mb-0">
+                                                <a href="{% url 'staff:user-list' %}">
+                                                    {{ request.user.treasury.get_staff_count|cool_num }}
+                                                </a>
+                                            </h5>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {# STOCK #}
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card border">
+                <div class="card-body border-bottom">
+                    <p class="card-title mb-0"><b>Available stock</b></p>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-lg-12 align-self-center">
+                            <div class="text-lg-center mt-4 mt-lg-0">
+                                <div class="row">
+                                    <div class="col">
+                                        <div>
+                                            <p class="text-muted text-truncate mb-2">
+                                                100
+                                            </p>
+                                            <h5 class="mb-0">
+                                                {{ request.user.treasury.s100|cool_num }}
+                                            </h5>
+                                        </div>
+                                    </div>
+
+                                    <div class="col">
+                                        <div>
+                                            <p class="text-muted text-truncate mb-2">
+                                                150
+                                            </p>
+                                            <h5 class="mb-0">
+                                                {{ request.user.treasury.s150|cool_num }}
+                                            </h5>
+                                        </div>
+                                    </div>
+
+                                    <div class="col">
+                                        <div>
+                                            <p class="text-muted text-truncate mb-2">
+                                                200
+                                            </p>
+                                            <h5 class="mb-0">
+                                                {{ request.user.treasury.s200|cool_num }}
+                                            </h5>
+                                        </div>
+                                    </div>
+
+                                    <div class="col">
+                                        <div>
+                                            <p class="text-muted text-truncate mb-2">
+                                                250
+                                            </p>
+                                            <h5 class="mb-0">
+                                                {{ request.user.treasury.s250|cool_num }}
+                                            </h5>
+                                        </div>
+                                    </div>
+
+                                    <div class="col">
+                                        <div>
+                                            <p class="text-muted text-truncate mb-2">
+                                                300
+                                            </p>
+                                            <h5 class="mb-0">
+                                                {{ request.user.treasury.s300|cool_num }}
+                                            </h5>
+                                        </div>
+                                    </div>
+
+                                    <div class="col">
+                                        <div>
+                                            <p class="text-muted text-truncate mb-2">
+                                                400
+                                            </p>
+                                            <h5 class="mb-0">
+                                                {{ request.user.treasury.s400|cool_num }}
+                                            </h5>
+                                        </div>
+                                    </div>
+
+                                    <div class="col">
+                                        <div>
+                                            <p class="text-muted text-truncate mb-2">
+                                                500
+                                            </p>
+                                            <h5 class="mb-0">
+                                                {{ request.user.treasury.s500|cool_num }}
+                                            </h5>
+                                        </div>
+                                    </div>
+
+                                    <div class="col">
+                                        <div>
+                                            <p class="text-muted text-truncate mb-2">
+                                                750
+                                            </p>
+                                            <h5 class="mb-0">
+                                                {{ request.user.treasury.s750|cool_num }}
+                                            </h5>
+                                        </div>
+                                    </div>
+
+                                    <div class="col">
+                                        <div>
+                                            <p class="text-muted text-truncate mb-2">
+                                                1000
+                                            </p>
+                                            <h5 class="mb-0">
+                                                {{ request.user.treasury.s1000|cool_num }}
+                                            </h5>
+                                        </div>
+                                    </div>
+
+                                    <div class="col">
+                                        <div>
+                                            <p class="text-muted text-truncate mb-2">
+                                                2000
+                                            </p>
+                                            <h5 class="mb-0">
+                                                {{ request.user.treasury.s2000|cool_num }}
+                                            </h5>
+                                        </div>
+                                    </div>
+
+                                    <div class="col">
+                                        <div>
+                                            <p class="text-muted text-truncate mb-2">
+                                                3000
+                                            </p>
+                                            <h5 class="mb-0">
+                                                {{ request.user.treasury.s3000|cool_num }}
+                                            </h5>
+                                        </div>
+                                    </div>
+
+                                    <div class="col">
+                                        <div>
+                                            <p class="text-muted text-truncate mb-2">
+                                                5000
+                                            </p>
+                                            <h5 class="mb-0">
+                                                {{ request.user.treasury.s5000|cool_num }}
+                                            </h5>
+                                        </div>
+                                    </div>
+
+                                    <div class="col">
+                                        <div>
+                                            <p class="text-muted text-truncate mb-2">
+                                                10000
+                                            </p>
+                                            <h5 class="mb-0">
+                                                {{ request.user.treasury.s10000|cool_num }}
+                                            </h5>
+                                        </div>
+                                    </div>
+
+                                    <div class="col">
+                                        <div>
+                                            <p class="text-muted text-truncate mb-2">
+                                                25000
+                                            </p>
+                                            <h5 class="mb-0">
+                                                {{ request.user.treasury.s25000|cool_num }}
+                                            </h5>
+                                        </div>
+                                    </div>
+
+                                    <div class="col">
+                                        <div>
+                                            <p class="text-muted text-truncate mb-2">
+                                                50000
+                                            </p>
+                                            <h5 class="mb-0">
+                                                {{ request.user.treasury.s50000|cool_num }}
+                                            </h5>
+                                        </div>
+                                    </div>
+
+
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <!-- end row -->
+                </div>
+
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-lg-12 align-self-center">
+                            <div class="text-lg-center mt-4 mt-lg-0">
+                                <div class="row">
+                                    <div class="col">
+                                        <div>
+                                            <p class="text-muted text-truncate mb-2">
+                                                25
+                                            </p>
+                                            <h5 class="mb-0">
+                                                {{ request.user.treasury.j25|cool_num }}
+                                            </h5>
+                                        </div>
+                                    </div>
+                                    <div class="col">
+                                        <div>
+                                            <p class="text-muted text-truncate mb-2">
+                                                30
+                                            </p>
+                                            <h5 class="mb-0">
+                                                {{ request.user.treasury.j30|cool_num }}
+                                            </h5>
+                                        </div>
+                                    </div>
+                                    <div class="col">
+                                        <div>
+                                            <p class="text-muted text-truncate mb-2">
+                                                35
+                                            </p>
+                                            <h5 class="mb-0">
+                                                {{ request.user.treasury.j35|cool_num }}
+                                            </h5>
+                                        </div>
+                                    </div>
+                                    <div class="col">
+                                        <div>
+                                            <p class="text-muted text-truncate mb-2">
+                                                50
+                                            </p>
+                                            <h5 class="mb-0">
+                                                {{ request.user.treasury.j50|cool_num }}
+                                            </h5>
+                                        </div>
+                                    </div>
+                                    <div class="col">
+                                        <div>
+                                            <p class="text-muted text-truncate mb-2">
+                                                60
+                                            </p>
+                                            <h5 class="mb-0">
+                                                {{ request.user.treasury.j60|cool_num }}
+                                            </h5>
+                                        </div>
+                                    </div>
+                                    <div class="col">
+                                        <div>
+                                            <p class="text-muted text-truncate mb-2">
+                                                75
+                                            </p>
+                                            <h5 class="mb-0">
+                                                {{ request.user.treasury.j75|cool_num }}
+                                            </h5>
+                                        </div>
+                                    </div>
+
+                                    <div class="col">
+                                        <div>
+                                            <p class="text-muted text-truncate mb-2">
+                                                100
+                                            </p>
+                                            <h5 class="mb-0">
+                                                {{ request.user.treasury.j100|cool_num }}
+                                            </h5>
+                                        </div>
+                                    </div>
+
+                                    <div class="col">
+                                        <div>
+                                            <p class="text-muted text-truncate mb-2">
+                                                125
+                                            </p>
+                                            <h5 class="mb-0">
+                                                {{ request.user.treasury.j125|cool_num }}
+                                            </h5>
+                                        </div>
+                                    </div>
+                                    <div class="col">
+                                        <div>
+                                            <p class="text-muted text-truncate mb-2">
+                                                150
+                                            </p>
+                                            <h5 class="mb-0">
+                                                {{ request.user.treasury.j150|cool_num }}
+                                            </h5>
+                                        </div>
+                                    </div>
+                                    <div class="col">
+                                        <div>
+                                            <p class="text-muted text-truncate mb-2">
+                                                200
+                                            </p>
+                                            <h5 class="mb-0">
+                                                {{ request.user.treasury.j200|cool_num }}
+                                            </h5>
+                                        </div>
+                                    </div>
+
+                                    <div class="col">
+                                        <div>
+                                            <p class="text-muted text-truncate mb-2">
+                                                500
+                                            </p>
+                                            <h5 class="mb-0">
+                                                {{ request.user.treasury.j500|cool_num }}
+                                            </h5>
+                                        </div>
+                                    </div>
+
+                                    <div class="col">
+                                        <div>
+                                            <p class="text-muted text-truncate mb-2">
+                                                1000
+                                            </p>
+                                            <h5 class="mb-0">
+                                                {{ request.user.treasury.j1000|cool_num }}
+                                            </h5>
+                                        </div>
+                                    </div>
+
+                                    <div class="col">
+                                        <div>
+                                            <p class="text-muted text-truncate mb-2">
+                                                2000
+                                            </p>
+                                            <h5 class="mb-0">
+                                                {{ request.user.treasury.j2000|cool_num }}
+                                            </h5>
+                                        </div>
+                                    </div>
+
+                                    <div class="col">
+                                        <div>
+                                            <p class="text-muted text-truncate mb-2">
+                                                3000
+                                            </p>
+                                            <h5 class="mb-0">
+                                                {{ request.user.treasury.j3000|cool_num }}
+                                            </h5>
+                                        </div>
+                                    </div>
+
+                                    <div class="col">
+                                        <div>
+                                            <p class="text-muted text-truncate mb-2">
+                                                5000
+                                            </p>
+                                            <h5 class="mb-0">
+                                                {{ request.user.treasury.j5000|cool_num }}
+                                            </h5>
+                                        </div>
+                                    </div>
+
+                                    <div class="col">
+                                        <div>
+                                            <p class="text-muted text-truncate mb-2">
+                                                10000
+                                            </p>
+                                            <h5 class="mb-0">
+                                                {{ request.user.treasury.j10000|cool_num }}
+                                            </h5>
+                                        </div>
+                                    </div>
+
+                                    <div class="col">
+                                        <div>
+                                            <p class="text-muted text-truncate mb-2">
+                                                15000
+                                            </p>
+                                            <h5 class="mb-0">
+                                                {{ request.user.treasury.j15000|cool_num }}
+                                            </h5>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

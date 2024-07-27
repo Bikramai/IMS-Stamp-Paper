@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block subtitle %}
+    District {% if object %}{{ object }}{% else %}Form{% endif %}
+{% endblock %}
+
+{% block page_heading %}
+    District {% if object %}{{ object }}{% else %}Form{% endif %}
+{% endblock %}
+
+{% block page_heading_right %}
+    <a href="{% url 'admins:district-list' %}">
+        <i class="fa fa-arrow-left"></i> Districts
+    </a>
+
+
+{% endblock %}
+
+{% block content %}
+
+    <div class="row">
+        <div class="col-md-8">
+            <div class="card p-2">
+                <div class="card-body">
+                    <form method="post">
+                        {% csrf_token %}
+                        {{ form|crispy }}
+                        <div class="">
+                            <button type="submit" class="btn btn-primary"><i class="fa fa-check-circle"></i> Submit
+                            </button>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+        {% if object %}
+            <div class="col-md-4">
+                <div class="card border border-danger p-2">
+                    <div class="card-body">
+                        <p><b>ALERT!</b> There is no soft delete available, once you delete there is no way to reverse this action.</p>
+                        <a class="btn btn-danger" href="{% url 'admins:district-delete' object.pk %}">
+                            <i class="fa fa-trash"></i> Remove
+                        </a>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+    </div>
+
+{% endblock %}
+
+
+

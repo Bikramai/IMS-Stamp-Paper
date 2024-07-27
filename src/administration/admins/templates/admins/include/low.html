@@ -1,0 +1,66 @@
+{% load custom_tags %}
+{% load humanize %}
+
+<tr>
+    <td>D* 100</td>
+    <td class="text-right">{{ object.s100|intcomma }}</td>
+    <td class="text-right">{{ object.s100|calculate_specific_value|intcomma }}</td>
+    <td class="text-right">100</td>
+    <td class="text-right">{% multiply object.s100 100 %}</td>
+</tr>
+<tr>
+    <td>D* 150</td>
+    <td class="text-right">{{ object.s150|intcomma }}</td>
+    <td class="text-right">{{ object.s150|calculate_specific_value|intcomma }}</td>
+    <td class="text-right">150</td>
+    <td class="text-right">{% multiply object.s150 150 %}</td>
+</tr>
+<tr>
+    <td>D* 200</td>
+    <td class="text-right">{{ object.s200|intcomma }}</td>
+    <td class="text-right">{{ object.s200|calculate_specific_value|intcomma }}</td>
+    <td class="text-right">200</td>
+    <td class="text-right">{% multiply object.s200 200 %}</td>
+</tr>
+<tr>
+    <td>D* 250</td>
+    <td class="text-right">{{ object.s250|intcomma }}</td>
+    <td class="text-right">{{ object.s250|calculate_specific_value|intcomma }}</td>
+    <td class="text-right">250</td>
+    <td class="text-right">{% multiply object.s250 250 %}</td>
+</tr>
+<tr>
+    <td>D* 300</td>
+    <td class="text-right">{{ object.s300|intcomma }}</td>
+    <td class="text-right">{{ object.s300|calculate_specific_value|intcomma }}</td>
+    <td class="text-right">300</td>
+    <td class="text-right">{% multiply object.s300 300 %}</td>
+</tr>
+<tr>
+    <td>D* 400</td>
+    <td class="text-right">{{ object.s400|intcomma }}</td>
+    <td class="text-right">{{ object.s400|calculate_specific_value|intcomma }}</td>
+    <td class="text-right">400</td>
+    <td class="text-right">{% multiply object.s400 400 %}</td>
+</tr>
+<tr>
+    <td>D* 500</td>
+    <td class="text-right">{{ object.s500|intcomma }}</td>
+    <td class="text-right">{{ object.s500|calculate_specific_value|intcomma }}</td>
+    <td class="text-right">500</td>
+    <td class="text-right">{% multiply object.s500 500 %}</td>
+</tr>
+<tr>
+    <td>D* 750</td>
+    <td class="text-right">{{ object.s750|intcomma }}</td>
+    <td class="text-right">{{ object.s750|calculate_specific_value|intcomma }}</td>
+    <td class="text-right">750</td>
+    <td class="text-right">{% multiply object.s750 750 %}</td>
+</tr>
+<tr>
+    <td>D* 1000</td>
+    <td class="text-right">{{ object.s1000|intcomma }}</td>
+    <td class="text-right">{{ object.s1000|calculate_specific_value|intcomma }}</td>
+    <td class="text-right">1000</td>
+    <td class="text-right">{% multiply object.s1000 1000 %}</td>
+</tr>

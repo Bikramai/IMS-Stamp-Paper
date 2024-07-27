@@ -1,0 +1,182 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% load custom_tags %}
+
+{% block subtitle %}
+    Non Judicial Stock Out Management
+{% endblock %}
+
+{% block content %}
+
+    <div class="row">
+        <div class="col-12">
+            <div class="page-title-box">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <p class="mb-0 font-size-24">
+                            Non Judicial StockOut Management
+                        </p>
+                    </div>
+                    <div class="col-sm-6 text-right">
+
+                        <a href="{% url 'admins:stock_out-create' %}" class="btn btn-success">
+                            <i class="fa fa-plus"></i> New Stock Out
+                        </a>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-12">
+            <form method="get">
+                <div class="input-group mb-3">
+                    {{ filter_form }}
+                    <div class="input-group-append">
+                        <button class="btn btn-primary" type="submit">
+                            <i class="fa fa-search"></i>
+                        </button>
+                        <a class="btn btn-danger" href="{% url 'admins:stock-out-list' %}">
+                            <i class="fa fa-brush"></i>
+                        </a>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-body">
+
+                    {% if object_list %}
+                        <div class="table-responsive" style="overflow-x: scroll;white-space: nowrap;">
+                            <table class="table table-borderless table-hover">
+                                <thead class="border-bottom">
+                                <tr>
+                                    <th>Treasury</th>
+                                    <th>Qty</th>
+                                    <th>total</th>
+                                    <th>50000</th>
+                                    <th>25000</th>
+                                    <th>10000</th>
+                                    <th>5000</th>
+                                    <th>3000</th>
+                                    <th>2000</th>
+                                    <th>1000</th>
+                                    <th>750</th>
+                                    <th>500</th>
+                                    <th>400</th>
+                                    <th>300</th>
+                                    <th>250</th>
+                                    <th>200</th>
+                                    <th>150</th>
+                                    <th>100</th>
+                                    <th>Created By</th>
+                                    <th>Created On</th>
+                                    <th>-</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+
+                                {% for object in object_list %}
+                                    <tr>
+                                        <td>
+                                            <b>
+                                                {% if object.source_treasury %}
+                                                	<a href="{% url 'admins:treasury-detail' object.source_treasury.pk %}">{{ object.source_treasury }}</a>
+                                                {% else %}
+                                                    <a href="#">-</a>
+                                                {% endif %}
+                                            </b>
+                                        </td>
+                                        <td>{{ object.quantity|cool_num }}</td>
+                                        <td>RS <b>{{ object.amount|cool_num }}</b></td>
+                                        <td>{{ object.s50000|cool_num }}</td>
+                                        <td>{{ object.s25000|cool_num }}</td>
+                                        <td>{{ object.s10000|cool_num }}</td>
+                                        <td>{{ object.s5000|cool_num }}</td>
+                                        <td>{{ object.s3000|cool_num }}</td>
+                                        <td>{{ object.s2000|cool_num }}</td>
+                                        <td>{{ object.s1000|cool_num }}</td>
+                                        <td>{{ object.s750|cool_num }}</td>
+                                        <td>{{ object.s500|cool_num }}</td>
+                                        <td>{{ object.s400|cool_num }}</td>
+                                        <td>{{ object.s300|cool_num }}</td>
+                                        <td>{{ object.s250|cool_num }}</td>
+                                        <td>{{ object.s200|cool_num }}</td>
+                                        <td>{{ object.s150|cool_num }}</td>
+                                        <td>{{ object.s100|cool_num }}</td>
+                                        <td>
+                                            <a href="{% url 'admins:user-detail' object.user.pk %}"><b>{{ object.user }}</b></a>
+                                        </td>
+                                        <td>{{ object.created_on }}</td>
+                                        <td>
+                                            <a href="{% url 'admins:stock_out-detail' object.pk %}"><b><i
+                                                    class="fa fa-eye"></i></b></a>
+                                         
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+
+
+                                </tbody>
+                            </table>
+                        </div>
+                    {% else %}
+                        <p class="mb-0"><b class="text-danger">No records available.</b></p>
+                    {% endif %}
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="mt-0">
+                <ul class="pagination">
+                    {% if object_list.has_previous %}
+                        <li>
+                            <span>
+                                <a href="{% relative_url object_list.previous_page_number 'page' request.GET.urlencode %}">
+                                    Previous
+                                </a>
+                            </span>
+                        </li>
+                    {% endif %}
+                    <li class="">
+                        <span>Page {{ object_list.number }} of {{ object_list.paginator.num_pages }}.</span>
+                    </li>
+                    {% if object_list.has_next %}
+                        <li>
+                            <span>
+                                <a href="{% relative_url object_list.next_page_number 'page' request.GET.urlencode %}">
+                                    Next
+                                </a>
+                            </span>
+                        </li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block js_code %}
+    <script>
+        $(document).ready(function () {
+
+            $('label').hide();
+            $('input').addClass('form-control');
+            $('select').addClass('form-control');
+
+        });
+    </script>
+{% endblock %}
+

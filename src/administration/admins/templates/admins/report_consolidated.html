@@ -1,0 +1,880 @@
+{% load humanize %}
+{% load static %}
+{% load custom_tags %}
+
+<html>
+<head>
+    <title>Consolidated Report</title>
+    <link rel="icon" href="{% static 'core/logos/logo.png' %}">
+    <link rel="stylesheet" href="{% static 'core/css/app.min.css' %}">
+    <link rel="stylesheet" href="{% static 'core/css/bootstrap.min.css' %}">
+
+    <link rel="stylesheet" href="{% static 'core/css/icons.min.css' %}">
+    <link rel="stylesheet" href="{% static 'print.css' %}" media="print">
+</head>
+<body>
+
+
+<div class="container py-4">
+
+    <div class="row justify-content-end">
+        <div class="col-12 text-right">
+            <button id="print-button" class="btn btn-primary btn-sm shadow-lg">
+                <i class="fa fa-print"></i> Print Report
+            </button>
+        </div>
+    </div>
+
+    {# RECEIVER #}
+    <div class="row">
+        {# HEAD #}
+        <div class="col-sm-12 text-center">
+            <img alt="" src="{% static 'core/logos/logo.png' %}" height="80">
+            <p class="mt-2 mb-0 h3">KPK Revenue Department</p>
+            <p class="mb-0 h5">(Stamps Inventory Management System)</p>
+        </div>
+
+        {# SUB HEAD - LEFT #}
+        <div class="col-sm-12">
+            <div class="row">
+
+                <div class="col-sm-6">
+                    <div class="">
+                        <p class="mb-0">Report Type</p>
+                        <h5>Consolidated</h5>
+                    </div>
+                </div>
+                <div class="col-sm-6 text-right">
+                    <div class="">
+                        <div class="">
+                            <p class="mb-0">Before</p>
+                            <input type="datetime-local" id="date" name="date" value="{{ date }}">
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <hr>
+
+    {% for object in object_list %}
+        <div class="card">
+            <div class="card-body border border-bottom text-left">
+                <h5 class="mb-0"><b>{{ object.treasury }}</b></h5>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <p class="mb-0">Total Quantity</p>
+                        <h5 class="mb-0">{{ object.counts_total|intcomma }}</h5>
+                    </div>
+                    <div class="col-sm-6 text-right">
+                        <p class="mb-0">Total Balance</p>
+                        <h5 class="mb-0">{{ object.amounts_total|intcomma }}</h5>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body p-0">
+                <div class="row">
+
+                    {# NON_JUDICIAL (s.values) #}
+                    {# s100, s150, s200, s250, s300, s400, s500, s750, s1000, s2000, s3000, s5000, s10000, s25000, s50000 #}
+                    <div class="col-sm-6">
+                        <table class="table table-bordered" style="margin-bottom: 0px;">
+                            <tr class="">
+                                <th colspan="3">Non Judicial</th>
+                            </tr>
+                            <tr>
+                                <td class="small">Denomination</td>
+                                <td class="text-right small">Quantity</td>
+                                <td class="text-right small">Amount</td>
+                            </tr>
+                            <tr>
+                                <th>100</th>
+                                <td class="text-right">{{ object.non_judicial.s100|intcomma }}</td>
+                                <td class="text-right"> {% multiply object.non_judicial.s100 100 %}</td>
+                            </tr>
+                            <tr>
+                                <th>150</th>
+                                <td class="text-right"> {{ object.non_judicial.s150|intcomma }}</td>
+                                <td class="text-right"> {% multiply object.non_judicial.s150 150 %}</td>
+                            </tr>
+                            <tr>
+                                <th>200</th>
+                                <td class="text-right"> {{ object.non_judicial.s200|intcomma }}</td>
+                                <td class="text-right"> {% multiply object.non_judicial.s200 200 %}</td>
+                            </tr>
+                            <tr>
+                                <th>250</th>
+                                <td class="text-right"> {{ object.non_judicial.s250|intcomma }}</td>
+                                <td class="text-right"> {% multiply object.non_judicial.s250 250 %}</td>
+                            </tr>
+                            <tr>
+                                <th>300</th>
+                                <td class="text-right"> {{ object.non_judicial.s300|intcomma }}</td>
+                                <td class="text-right"> {% multiply object.non_judicial.s300 300 %}</td>
+                            </tr>
+                            <tr>
+                                <th>400</th>
+                                <td class="text-right"> {{ object.non_judicial.s400|intcomma }}</td>
+                                <td class="text-right"> {% multiply object.non_judicial.s400 400 %}</td>
+                            </tr>
+                            <tr>
+                                <th>500</th>
+                                <td class="text-right"> {{ object.non_judicial.s500|intcomma }}</td>
+                                <td class="text-right"> {% multiply object.non_judicial.s500 500 %}</td>
+                            </tr>
+                            <tr>
+                                <th>750</th>
+                                <td class="text-right"> {{ object.non_judicial.s750|intcomma }}</td>
+                                <td class="text-right"> {% multiply object.non_judicial.s750 750 %}</td>
+                            </tr>
+                            <tr>
+                                <th>1000</th>
+                                <td class="text-right"> {{ object.non_judicial.s1000|intcomma }}</td>
+                                <td class="text-right"> {% multiply object.non_judicial.s1000 1000 %}</td>
+                            </tr>
+                            <tr>
+                                <th>2000</th>
+                                <td class="text-right"> {{ object.non_judicial.s2000|intcomma }}</td>
+                                <td class="text-right"> {% multiply object.non_judicial.s2000 2000 %}</td>
+                            </tr>
+                            <tr>
+                                <th>3000</th>
+                                <td class="text-right"> {{ object.non_judicial.s3000|intcomma }}</td>
+                                <td class="text-right"> {% multiply object.non_judicial.s3000 3000 %}</td>
+                            </tr>
+                            <tr>
+                                <th>5000</th>
+                                <td class="text-right"> {{ object.non_judicial.s5000|intcomma }}</td>
+                                <td class="text-right"> {% multiply object.non_judicial.s5000 5000 %}</td>
+                            </tr>
+                            <tr>
+                                <th>10000</th>
+                                <td class="text-right"> {{ object.non_judicial.s10000|intcomma }}</td>
+                                <td class="text-right"> {% multiply object.non_judicial.s10000 10000 %}</td>
+                            </tr>
+                            <tr>
+                                <th>25000</th>
+                                <td class="text-right"> {{ object.non_judicial.s25000|intcomma }}</td>
+                                <td class="text-right"> {% multiply object.non_judicial.s25000 25000 %}</td>
+                            </tr>
+                            <tr>
+                                <th>50000</th>
+                                <td class="text-right"> {{ object.non_judicial.s50000|intcomma }}</td>
+                                <td class="text-right"> {% multiply object.non_judicial.s50000 50000 %}</td>
+                            </tr>
+                            <tr>
+                                <th class="text-right"><h4><b>Totals</b></h4></th>
+                                <td class="text-right"><b>{{ object.counts_non_judicial|intcomma }}</b></td>
+                                <td class="text-right"><b>{{ object.amounts_non_judicial|intcomma }}</b></td>
+                            </tr>
+                        </table>
+                    </div>
+
+                    {# NON_JUDICIAL (j.values) #}
+                    {# j25, j30, j35, j50, j60, j75, j100, j125, j150, j200, j500, j1000, j2000, j3000, j5000, j10000, j15000 #}
+                    <div class="col-sm-6">
+                        <table class="table table-bordered" style="margin-bottom: 0px;">
+                            <tr class="">
+                                <th colspan="3">Judicial</th>
+                            </tr>
+                            <tr>
+                                <td class="small">Denomination</td>
+                                <td class="text-right small">Quantity</td>
+                                <td class="text-right small">Amount</td>
+                            </tr>
+                            <tr>
+                                <th>25</th>
+                                <td class="text-right"> {{ object.judicial.j25|intcomma }}</td>
+                                <td class="text-right"> {% multiply object.judicial.j25 25 %}</td>
+                            </tr>
+                            <tr>
+                                <th>30</th>
+                                <td class="text-right"> {{ object.judicial.j30|intcomma }}</td>
+                                <td class="text-right"> {% multiply object.judicial.j30 30 %}</td>
+                            </tr>
+                            <tr>
+                                <th>35</th>
+                                <td class="text-right"> {{ object.judicial.j35|intcomma }}</td>
+                                <td class="text-right"> {% multiply object.judicial.j35 35 %}</td>
+                            </tr>
+                            <tr>
+                                <th>50</th>
+                                <td class="text-right"> {{ object.judicial.j50|intcomma }}</td>
+                                <td class="text-right"> {% multiply object.judicial.j50 50 %}</td>
+                            </tr>
+                            <tr>
+                                <th>60</th>
+                                <td class="text-right"> {{ object.judicial.j60|intcomma }}</td>
+                                <td class="text-right"> {% multiply object.judicial.j60 60 %}</td>
+                            </tr>
+                            <tr>
+                                <th>75</th>
+                                <td class="text-right"> {{ object.judicial.j75|intcomma }}</td>
+                                <td class="text-right"> {% multiply object.judicial.j75 75 %}</td>
+                            </tr>
+                            <tr>
+                                <th>100</th>
+                                <td class="text-right"> {{ object.judicial.j100|intcomma }}</td>
+                                <td class="text-right"> {% multiply object.judicial.j100 100 %}</td>
+                            </tr>
+                            <tr>
+                                <th>125</th>
+                                <td class="text-right"> {{ object.judicial.j125|intcomma }}</td>
+                                <td class="text-right"> {% multiply object.judicial.j125 125 %}</td>
+                            </tr>
+                            <tr>
+                                <th>150</th>
+                                <td class="text-right"> {{ object.judicial.j150|intcomma }}</td>
+                                <td class="text-right"> {% multiply object.judicial.j150 150 %}</td>
+                            </tr>
+                            <tr>
+                                <th>200</th>
+                                <td class="text-right"> {{ object.judicial.j200|intcomma }}</td>
+                                <td class="text-right"> {% multiply object.judicial.j200 200 %}</td>
+                            </tr>
+                            <tr>
+                                <th>500</th>
+                                <td class="text-right"> {{ object.judicial.j500|intcomma }}</td>
+                                <td class="text-right"> {% multiply object.judicial.j500 500 %}</td>
+                            </tr>
+                            <tr>
+                                <th>1000</th>
+                                <td class="text-right"> {{ object.judicial.j1000|intcomma }}</td>
+                                <td class="text-right"> {% multiply object.judicial.j1000 1000 %}</td>
+                            </tr>
+                            <tr>
+                                <th>2000</th>
+                                <td class="text-right"> {{ object.judicial.j2000|intcomma }}</td>
+                                <td class="text-right"> {% multiply object.judicial.j2000 2000 %}</td>
+                            </tr>
+                            <tr>
+                                <th>3000</th>
+                                <td class="text-right"> {{ object.judicial.j3000|intcomma }}</td>
+                                <td class="text-right"> {% multiply object.judicial.j3000 3000 %}</td>
+                            </tr>
+                            <tr>
+                                <th>5000</th>
+                                <td class="text-right"> {{ object.judicial.j5000|intcomma }}</td>
+                                <td class="text-right"> {% multiply object.judicial.j5000 5000 %}</td>
+                            </tr>
+                            <tr>
+                                <th>10000</th>
+                                <td class="text-right"> {{ object.judicial.j10000|intcomma }}</td>
+                                <td class="text-right"> {% multiply object.judicial.j10000 10000 %}</td>
+                            </tr>
+                            <tr>
+                                <th>15000</th>
+                                <td class="text-right"> {{ object.judicial.j15000|intcomma }}</td>
+                                <td class="text-right"> {% multiply object.judicial.j15000 15000 %}</td>
+                            </tr>
+                            <tr>
+                                <th class="text-right"><h4><b>Totals</b></h4></th>
+                                <td class="text-right"><b>{{ object.counts_judicial|intcomma }}</b></td>
+                                <td class="text-right"><b>{{ object.amounts_judicial|intcomma }}</b></td>
+                            </tr>
+
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+
+    <hr>
+
+    {# NON - JUDICIAL (njq) #}
+    <div>
+
+        {# FULL DENOMINATION #}
+        <div class="card">
+            <div class="card-body border border-bottom text-left">
+                <h5 class="mb-0"><b>Non - Judicial Complete Report</b></h5>
+            </div>
+            <div class="card-body p-0">
+
+                <table class="table table-bordered">
+                    <tr>
+                        <th>Denomination</th>
+                        <th class="text-right">Quantity</th>
+                        <th class="text-right">Manufacturer Cost (27.423)</th>
+                        <th class="text-right">Face Value</th>
+                    </tr>
+                    <tr>
+                        <th>100</th>
+                        <td class="text-right">{{ njq.s100|intcomma }}</td>
+                        <td class="text-right">{% multiply njq.s100 m_cost %}</td>
+                        <td class="text-right">{% multiply njq.s100 100 %}</td>
+                    </tr>
+                    <tr>
+                        <th>150</th>
+                        <td class="text-right">{{ njq.s150|intcomma }}</td>
+                        <td class="text-right">{% multiply njq.s150 m_cost %}</td>
+                        <td class="text-right">{% multiply njq.s150 150 %}</td>
+                    </tr>
+                    <tr>
+                        <th>200</th>
+                        <td class="text-right">{{ njq.s200|intcomma }}</td>
+                        <td class="text-right">{% multiply njq.s200 m_cost %}</td>
+                        <td class="text-right">{% multiply njq.s200 200 %}</td>
+                    </tr>
+                    <tr>
+                        <th>250</th>
+                        <td class="text-right">{{ njq.s250|intcomma }}</td>
+                        <td class="text-right">{% multiply njq.s250 m_cost %}</td>
+                        <td class="text-right">{% multiply njq.s250 250 %}</td>
+                    </tr>
+                    <tr>
+                        <th>300</th>
+                        <td class="text-right">{{ njq.s300|intcomma }}</td>
+                        <td class="text-right">{% multiply njq.s300 m_cost %}</td>
+                        <td class="text-right">{% multiply njq.s300 300 %}</td>
+                    </tr>
+                    <tr>
+                        <th>400</th>
+                        <td class="text-right">{{ njq.s400|intcomma }}</td>
+                        <td class="text-right">{% multiply njq.s400 m_cost %}</td>
+                        <td class="text-right">{% multiply njq.s400 400 %}</td>
+                    </tr>
+                    <tr>
+                        <th>500</th>
+                        <td class="text-right">{{ njq.s500|intcomma }}</td>
+                        <td class="text-right">{% multiply njq.s500 m_cost %}</td>
+                        <td class="text-right">{% multiply njq.s500 500 %}</td>
+                    </tr>
+                    <tr>
+                        <th>750</th>
+                        <td class="text-right">{{ njq.s750|intcomma }}</td>
+                        <td class="text-right">{% multiply njq.s750 m_cost %}</td>
+                        <td class="text-right">{% multiply njq.s750 750 %}</td>
+                    </tr>
+                    <tr>
+                        <th>1000</th>
+                        <td class="text-right">{{ njq.s1000|intcomma }}</td>
+                        <td class="text-right">{% multiply njq.s1000 m_cost %}</td>
+                        <td class="text-right">{% multiply njq.s1000 1000 %}</td>
+                    </tr>
+                    <tr>
+                        <th>2000</th>
+                        <td class="text-right">{{ njq.s2000|intcomma }}</td>
+                        <td class="text-right">{% multiply njq.s2000 m_cost %}</td>
+                        <td class="text-right">{% multiply njq.s2000 2000 %}</td>
+                    </tr>
+                    <tr>
+                        <th>3000</th>
+                        <td class="text-right">{{ njq.s3000|intcomma }}</td>
+                        <td class="text-right">{% multiply njq.s3000 m_cost %}</td>
+                        <td class="text-right">{% multiply njq.s3000 3000 %}</td>
+                    </tr>
+                    <tr>
+                        <th>5000</th>
+                        <td class="text-right">{{ njq.s5000|intcomma }}</td>
+                        <td class="text-right">{% multiply njq.s5000 m_cost %}</td>
+                        <td class="text-right">{% multiply njq.s5000 5000 %}</td>
+                    </tr>
+                    <tr>
+                        <th>10000</th>
+                        <td class="text-right">{{ njq.s10000|intcomma }}</td>
+                        <td class="text-right">{% multiply njq.s10000 m_cost %}</td>
+                        <td class="text-right">{% multiply njq.s10000 10000 %}</td>
+                    </tr>
+                    <tr>
+                        <th>25000</th>
+                        <td class="text-right">{{ njq.s25000|intcomma }}</td>
+                        <td class="text-right">{% multiply njq.s25000 m_cost %}</td>
+                        <td class="text-right">{% multiply njq.s25000 25000 %}</td>
+                    </tr>
+                    <tr>
+                        <th>50000</th>
+                        <td class="text-right">{{ njq.s50000|intcomma }}</td>
+                        <td class="text-right">{% multiply njq.s50000 m_cost %}</td>
+                        <td class="text-right">{% multiply njq.s50000 50000 %}</td>
+                    </tr>
+
+                    {# TOTALS #}
+                    <tr>
+                        <th>Totals (Full)</th>
+                        <th class="text-right">{{ njq.sum|intcomma }}</th>
+                        <th class="text-right">{{ njq.sum_manufacturing_cost|intcomma }}</th>
+                        <th class="text-right">{{ njq.sum_amount|intcomma }}</th>
+                    </tr>
+                    <tr>
+                        <th>Totals (High)</th>
+                        <th class="text-right">{{ njq.sum_high_denomination|intcomma }}</th>
+                        <th class="text-right">{{ njq.sum_high_manufacturing_cost|intcomma }}</th>
+                        <th class="text-right">{{ njq.sum_high_denomination_amount|intcomma }}</th>
+                    </tr>
+
+                </table>
+
+            </div>
+        </div>
+
+        {# HIGH DENOMINATION #}
+        <div class="card">
+            <div class="card-body border border-bottom text-left">
+                <h5 class="mb-0"><b>Non - Judicial High Denomination Report</b></h5>
+            </div>
+            <div class="card-body p-0">
+                <table class="table table-bordered">
+                    <tr>
+                        <th>Denomination</th>
+                        <th class="text-right">Quantity</th>
+                        <th class="text-right">Manufacturer Cost (27.423)</th>
+                        <th class="text-right">Face Value</th>
+                    </tr>
+                    <tr>
+                        <th>2000</th>
+                        <td class="text-right">{{ njq.s2000|intcomma }}</td>
+                        <td class="text-right">{% multiply njq.s2000 m_cost %}</td>
+                        <td class="text-right">{% multiply njq.s2000 2000 %}</td>
+                    </tr>
+                    <tr>
+                        <th>3000</th>
+                        <td class="text-right">{{ njq.s3000|intcomma }}</td>
+                        <td class="text-right">{% multiply njq.s3000 m_cost %}</td>
+                        <td class="text-right">{% multiply njq.s3000 3000 %}</td>
+                    </tr>
+                    <tr>
+                        <th>5000</th>
+                        <td class="text-right">{{ njq.s5000|intcomma }}</td>
+                        <td class="text-right">{% multiply njq.s5000 m_cost %}</td>
+                        <td class="text-right">{% multiply njq.s5000 5000 %}</td>
+                    </tr>
+                    <tr>
+                        <th>10000</th>
+                        <td class="text-right">{{ njq.s10000|intcomma }}</td>
+                        <td class="text-right">{% multiply njq.s10000 m_cost %}</td>
+                        <td class="text-right">{% multiply njq.s10000 10000 %}</td>
+                    </tr>
+                    <tr>
+                        <th>25000</th>
+                        <td class="text-right">{{ njq.s25000|intcomma }}</td>
+                        <td class="text-right">{% multiply njq.s25000 m_cost %}</td>
+                        <td class="text-right">{% multiply njq.s25000 25000 %}</td>
+                    </tr>
+                    <tr>
+                        <th>50000</th>
+                        <td class="text-right">{{ njq.s50000|intcomma }}</td>
+                        <td class="text-right">{% multiply njq.s50000 m_cost %}</td>
+                        <td class="text-right">{% multiply njq.s50000 50000 %}</td>
+                    </tr>
+                    <tr>
+                        <th class="text-right"><h4><b>Totals</b></h4></th>
+                        <td class="text-right"><b>{{ njq.sum_high_denomination|intcomma }}</b></td>
+                        <td class="text-right"><b>{{ njq.sum_high_manufacturing_cost|intcomma }}</b></td>
+                        <td class="text-right"><b>{{ njq.sum_high_denomination_amount|intcomma }}</b></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+        {# LOW DENOMINATION #}
+        <div class="card">
+            <div class="card-body border border-bottom text-left">
+                <h5 class="mb-0"><b>Non - Judicial Complete Report</b></h5>
+            </div>
+            <div class="card-body p-0">
+
+                <table class="table table-bordered">
+                    <tr>
+                        <th>Denomination</th>
+                        <th class="text-right">Quantity</th>
+                        <th class="text-right">Manufacturer Cost (27.423)</th>
+                        <th class="text-right">Face Value</th>
+                    </tr>
+                    <tr>
+                        <th>100</th>
+                        <td class="text-right">{{ njq.s100|intcomma }}</td>
+                        <td class="text-right">{% multiply njq.s100 m_cost %}</td>
+                        <td class="text-right">{% multiply njq.s100 100 %}</td>
+                    </tr>
+                    <tr>
+                        <th>150</th>
+                        <td class="text-right">{{ njq.s150|intcomma }}</td>
+                        <td class="text-right">{% multiply njq.s150 m_cost %}</td>
+                        <td class="text-right">{% multiply njq.s150 150 %}</td>
+                    </tr>
+                    <tr>
+                        <th>200</th>
+                        <td class="text-right">{{ njq.s200|intcomma }}</td>
+                        <td class="text-right">{% multiply njq.s200 m_cost %}</td>
+                        <td class="text-right">{% multiply njq.s200 200 %}</td>
+                    </tr>
+                    <tr>
+                        <th>250</th>
+                        <td class="text-right">{{ njq.s250|intcomma }}</td>
+                        <td class="text-right">{% multiply njq.s250 m_cost %}</td>
+                        <td class="text-right">{% multiply njq.s250 250 %}</td>
+                    </tr>
+                    <tr>
+                        <th>300</th>
+                        <td class="text-right">{{ njq.s300|intcomma }}</td>
+                        <td class="text-right">{% multiply njq.s300 m_cost %}</td>
+                        <td class="text-right">{% multiply njq.s300 300 %}</td>
+                    </tr>
+                    <tr>
+                        <th>400</th>
+                        <td class="text-right">{{ njq.s400|intcomma }}</td>
+                        <td class="text-right">{% multiply njq.s400 m_cost %}</td>
+                        <td class="text-right">{% multiply njq.s400 400 %}</td>
+                    </tr>
+                    <tr>
+                        <th>500</th>
+                        <td class="text-right">{{ njq.s500|intcomma }}</td>
+                        <td class="text-right">{% multiply njq.s500 m_cost %}</td>
+                        <td class="text-right">{% multiply njq.s500 500 %}</td>
+                    </tr>
+                    <tr>
+                        <th>750</th>
+                        <td class="text-right">{{ njq.s750|intcomma }}</td>
+                        <td class="text-right">{% multiply njq.s750 m_cost %}</td>
+                        <td class="text-right">{% multiply njq.s750 750 %}</td>
+                    </tr>
+                    <tr>
+                        <th>1000</th>
+                        <td class="text-right">{{ njq.s1000|intcomma }}</td>
+                        <td class="text-right">{% multiply njq.s1000 m_cost %}</td>
+                        <td class="text-right">{% multiply njq.s1000 1000 %}</td>
+                    </tr>
+
+                    <tr>
+                        <th>Totals</th>
+                        <th class="text-right">{{ njq.sum_low_denomination|intcomma }}</th>
+                        <th class="text-right">{{ njq.sum_low_manufacturing_cost|intcomma }}</th>
+                        <th class="text-right">{{ njq.sum_low_denomination_amount|intcomma }}</th>
+                    </tr>
+
+                </table>
+
+            </div>
+        </div>
+
+    </div>
+
+    {# JUDICIAL (jq) #}
+    <div>
+
+        {# FULL DENOMINATION #}
+        <div class="card">
+            <div class="card-body border border-bottom text-left">
+                <h5 class="mb-0"><b>Judicial Complete Report</b></h5>
+            </div>
+            <div class="card-body p-0">
+                <table class="table table-bordered">
+                    <tr>
+                        <th>Denomination</th>
+                        <th class="text-right">Quantity</th>
+                        <th class="text-right">Manufacturer Cost (27.423)</th>
+                        <th class="text-right">Face Value</th>
+                    </tr>
+                    <tr>
+                        <th>25</th>
+                        <td class="text-right">{{ jq.j25|intcomma }}</td>
+                        <td class="text-right">{% multiply jq.j25 m_cost %}</td>
+                        <td class="text-right">{% multiply jq.j25 25 %}</td>
+                    </tr>
+                    <tr>
+                        <th>30</th>
+                        <td class="text-right"> {{ jq.j30|intcomma }}</td>
+                        <td class="text-right">{% multiply jq.j30 m_cost %}</td>
+                        <td class="text-right">{% multiply jq.j30 30 %}</td>
+                    </tr>
+                    <tr>
+                        <th>35</th>
+                        <td class="text-right"> {{ jq.j35|intcomma }}</td>
+                        <td class="text-right">{% multiply jq.j35 m_cost %}</td>
+                        <td class="text-right">{% multiply jq.j35 35 %}</td>
+                    </tr>
+                    <tr>
+                        <th>50</th>
+                        <td class="text-right"> {{ jq.j50|intcomma }}</td>
+                        <td class="text-right">{% multiply jq.j50 m_cost %}</td>
+                        <td class="text-right">{% multiply jq.j50 50 %}</td>
+                    </tr>
+                    <tr>
+                        <th>60</th>
+                        <td class="text-right"> {{ jq.j60|intcomma }}</td>
+                        <td class="text-right">{% multiply jq.j60 m_cost %}</td>
+                        <td class="text-right">{% multiply jq.j60 60 %}</td>
+                    </tr>
+                    <tr>
+                        <th>75</th>
+                        <td class="text-right"> {{ jq.j75|intcomma }}</td>
+                        <td class="text-right">{% multiply jq.j75 m_cost %}</td>
+                        <td class="text-right">{% multiply jq.j75 75 %}</td>
+                    </tr>
+                    <tr>
+                        <th>100</th>
+                        <td class="text-right"> {{ jq.j100|intcomma }}</td>
+                        <td class="text-right">{% multiply jq.j100 m_cost %}</td>
+                        <td class="text-right">{% multiply jq.j100 100 %}</td>
+                    </tr>
+                    <tr>
+                        <th>125</th>
+                        <td class="text-right"> {{ jq.j125|intcomma }}</td>
+                        <td class="text-right">{% multiply jq.j125 m_cost %}</td>
+                        <td class="text-right">{% multiply jq.j125 125 %}</td>
+                    </tr>
+                    <tr>
+                        <th>150</th>
+                        <td class="text-right"> {{ jq.j150|intcomma }}</td>
+                        <td class="text-right">{% multiply jq.j150 m_cost %}</td>
+                        <td class="text-right">{% multiply jq.j150 150 %}</td>
+                    </tr>
+                    <tr>
+                        <th>200</th>
+                        <td class="text-right"> {{ jq.j200|intcomma }}</td>
+                        <td class="text-right">{% multiply jq.j200 m_cost %}</td>
+                        <td class="text-right">{% multiply jq.j200 200 %}</td>
+                    </tr>
+                    <tr>
+                        <th>500</th>
+                        <td class="text-right"> {{ jq.j500|intcomma }}</td>
+                        <td class="text-right">{% multiply jq.j500 m_cost %}</td>
+                        <td class="text-right">{% multiply jq.j500 500 %}</td>
+                    </tr>
+                    <tr>
+                        <th>1000</th>
+                        <td class="text-right"> {{ jq.j1000|intcomma }}</td>
+                        <td class="text-right">{% multiply jq.j1000 m_cost %}</td>
+                        <td class="text-right">{% multiply jq.j1000 1000 %}</td>
+                    </tr>
+                    <tr>
+                        <th>2000</th>
+                        <td class="text-right"> {{ jq.j2000|intcomma }}</td>
+                        <td class="text-right">{% multiply jq.j2000 m_cost %}</td>
+                        <td class="text-right">{% multiply jq.j2000 2000 %}</td>
+                    </tr>
+                    <tr>
+                        <th>3000</th>
+                        <td class="text-right"> {{ jq.j3000|intcomma }}</td>
+                        <td class="text-right">{% multiply jq.j3000 m_cost %}</td>
+                        <td class="text-right">{% multiply jq.j3000 3000 %}</td>
+                    </tr>
+                    <tr>
+                        <th>5000</th>
+                        <td class="text-right"> {{ jq.j5000|intcomma }}</td>
+                        <td class="text-right">{% multiply jq.j5000 m_cost %}</td>
+                        <td class="text-right">{% multiply jq.j5000 5000 %}</td>
+                    </tr>
+                    <tr>
+                        <th>10000</th>
+                        <td class="text-right"> {{ jq.j10000|intcomma }}</td>
+                        <td class="text-right">{% multiply jq.j10000 m_cost %}</td>
+                        <td class="text-right">{% multiply jq.j10000 10000 %}</td>
+                    </tr>
+                    <tr>
+                        <th>15000</th>
+                        <td class="text-right"> {{ jq.j15000|intcomma }}</td>
+                        <td class="text-right">{% multiply jq.j15000 m_cost %}</td>
+                        <td class="text-right">{% multiply jq.j15000 15000 %}</td>
+                    </tr>
+
+                    {# TOTALS #}
+                    <tr>
+                        <th>Totals (Full)</th>
+                        <th class="text-right">{{ jq.sum|intcomma }}</th>
+                        <th class="text-right ">{{ jq.sum_manufacturing_cost|intcomma }}</th>
+                        <th class="text-right ">{{ jq.sum_amount|intcomma }}</th>
+                    </tr>
+                    <tr>
+                        <th>Totals (High)</th>
+                        <th class="text-right">{{ jq.sum_high_denomination|intcomma }}</th>
+                        <th class="text-right ">{{ jq.sum_high_manufacturing_cost|intcomma }}</th>
+                        <th class="text-right ">{{ jq.sum_high_denomination_amount|intcomma }}</th>
+                    </tr>
+
+                </table>
+            </div>
+        </div>
+
+        {# HIGH DENOMINATION #}
+        <div class="card">
+            <div class="card-body border border-bottom text-left">
+                <h5 class="mb-0"><b>Judicial High Denomination Report</b></h5>
+            </div>
+            <div class="card-body p-0">
+                <table class="table table-bordered">
+                    <tr>
+                        <th>Denomination</th>
+                        <th class="text-right">Quantity</th>
+                        <th class="text-right">Manufacturer Cost (27.423)</th>
+                        <th class="text-right">Face Value</th>
+                    </tr>
+                    <tr>
+                        <th>2000</th>
+                        <td class="text-right"> {{ jq.j2000|intcomma }}</td>
+                        <td class="text-right">{% multiply jq.j2000 m_cost %}</td>
+                        <td class="text-right">{% multiply jq.j2000 2000 %}</td>
+                    </tr>
+                    <tr>
+                        <th>3000</th>
+                        <td class="text-right"> {{ jq.j3000|intcomma }}</td>
+                        <td class="text-right">{% multiply jq.j3000 m_cost %}</td>
+                        <td class="text-right">{% multiply jq.j3000 3000 %}</td>
+                    </tr>
+                    <tr>
+                        <th>5000</th>
+                        <td class="text-right"> {{ jq.j5000|intcomma }}</td>
+                        <td class="text-right">{% multiply jq.j5000 m_cost %}</td>
+                        <td class="text-right">{% multiply jq.j5000 5000 %}</td>
+                    </tr>
+                    <tr>
+                        <th>10000</th>
+                        <td class="text-right"> {{ jq.j10000|intcomma }}</td>
+                        <td class="text-right">{% multiply jq.j10000 m_cost %}</td>
+                        <td class="text-right">{% multiply jq.j10000 10000 %}</td>
+                    </tr>
+                    <tr>
+                        <th>15000</th>
+                        <td class="text-right"> {{ jq.j15000|intcomma }}</td>
+                        <td class="text-right">{% multiply jq.j15000 m_cost %}</td>
+                        <td class="text-right">{% multiply jq.j15000 15000 %}</td>
+                    </tr>
+                    <tr>
+                        <th class="text-right"><h4><b>Totals</b></h4></th>
+                        <td class="text-right"><b>{{ jq.sum_high_denomination|intcomma }}</b></td>
+                        <td class="text-right"><b>{{ jq.sum_high_manufacturing_cost|intcomma }}</b></td>
+                        <td class="text-right"><b>{{ jq.sum_high_denomination_amount|intcomma }}</b></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+        {# LOW DENOMINATION #}
+        <div class="card">
+            <div class="card-body border border-bottom text-left">
+                <h5 class="mb-0"><b>Judicial Low Denomination Report</b></h5>
+            </div>
+            <div class="card-body p-0">
+                <table class="table table-bordered">
+                    <tr>
+                        <th>Denomination</th>
+                        <th class="text-right">Quantity</th>
+                        <th class="text-right">Manufacturer Cost (27.423)</th>
+                        <th class="text-right">Face Value</th>
+                    </tr>
+                    <tr>
+                        <th>25</th>
+                        <td class="text-right">{{ jq.j25|intcomma }}</td>
+                        <td class="text-right">{% multiply jq.j25 m_cost %}</td>
+                        <td class="text-right">{% multiply jq.j25 25 %}</td>
+                    </tr>
+                    <tr>
+                        <th>30</th>
+                        <td class="text-right"> {{ jq.j30|intcomma }}</td>
+                        <td class="text-right">{% multiply jq.j30 m_cost %}</td>
+                        <td class="text-right">{% multiply jq.j30 30 %}</td>
+                    </tr>
+                    <tr>
+                        <th>35</th>
+                        <td class="text-right"> {{ jq.j35|intcomma }}</td>
+                        <td class="text-right">{% multiply jq.j35 m_cost %}</td>
+                        <td class="text-right">{% multiply jq.j35 35 %}</td>
+                    </tr>
+                    <tr>
+                        <th>50</th>
+                        <td class="text-right"> {{ jq.j50|intcomma }}</td>
+                        <td class="text-right">{% multiply jq.j50 m_cost %}</td>
+                        <td class="text-right">{% multiply jq.j50 50 %}</td>
+                    </tr>
+                    <tr>
+                        <th>60</th>
+                        <td class="text-right"> {{ jq.j60|intcomma }}</td>
+                        <td class="text-right">{% multiply jq.j60 m_cost %}</td>
+                        <td class="text-right">{% multiply jq.j60 60 %}</td>
+                    </tr>
+                    <tr>
+                        <th>75</th>
+                        <td class="text-right"> {{ jq.j75|intcomma }}</td>
+                        <td class="text-right">{% multiply jq.j75 m_cost %}</td>
+                        <td class="text-right">{% multiply jq.j75 75 %}</td>
+                    </tr>
+                    <tr>
+                        <th>100</th>
+                        <td class="text-right"> {{ jq.j100|intcomma }}</td>
+                        <td class="text-right">{% multiply jq.j100 m_cost %}</td>
+                        <td class="text-right">{% multiply jq.j100 100 %}</td>
+                    </tr>
+                    <tr>
+                        <th>125</th>
+                        <td class="text-right"> {{ jq.j125|intcomma }}</td>
+                        <td class="text-right">{% multiply jq.j125 m_cost %}</td>
+                        <td class="text-right">{% multiply jq.j125 125 %}</td>
+                    </tr>
+                    <tr>
+                        <th>150</th>
+                        <td class="text-right"> {{ jq.j150|intcomma }}</td>
+                        <td class="text-right">{% multiply jq.j150 m_cost %}</td>
+                        <td class="text-right">{% multiply jq.j150 150 %}</td>
+                    </tr>
+                    <tr>
+                        <th>200</th>
+                        <td class="text-right"> {{ jq.j200|intcomma }}</td>
+                        <td class="text-right">{% multiply jq.j200 m_cost %}</td>
+                        <td class="text-right">{% multiply jq.j200 200 %}</td>
+                    </tr>
+                    <tr>
+                        <th>500</th>
+                        <td class="text-right"> {{ jq.j500|intcomma }}</td>
+                        <td class="text-right">{% multiply jq.j500 m_cost %}</td>
+                        <td class="text-right">{% multiply jq.j500 500 %}</td>
+                    </tr>
+                    <tr>
+                        <th>1000</th>
+                        <td class="text-right"> {{ jq.j1000|intcomma }}</td>
+                        <td class="text-right">{% multiply jq.j1000 m_cost %}</td>
+                        <td class="text-right">{% multiply jq.j1000 1000 %}</td>
+                    </tr>
+                    <tr>
+                        <th class="text-right"><h4><b>Totals</b></h4></th>
+                        <td class="text-right"><b>{{ jq.sum_low_denomination|intcomma }}</b></td>
+                        <td class="text-right"><b>{{ jq.sum_low_manufacturing_cost|intcomma }}</b></td>
+                        <td class="text-right"><b>{{ jq.sum_low_denomination_amount|intcomma }}</b></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-12 text-center">
+            <p class="mb-0">
+                This <strong>Consolidated Report</strong> has been meticulously compiled from the <strong>Stamps
+                Inventory Management System (SIMS)</strong>, as of
+                {% if date %}
+                    {{ date }}
+                {% else %}
+                    {% now 'Y-m-d' %}
+                {% endif %}.
+            </p>
+
+        </div>
+    </div>
+
+</div>
+
+<script src="{% static 'core/libs/jquery/jquery.min.js' %}"></script>
+<script src="{% static 'core/libs/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+<script src="{% static 'core/libs/metismenu/metisMenu.min.js' %}"></script>
+<script src="{% static 'core/libs/simplebar/simplebar.min.js' %}"></script>
+<script src="{% static 'core/libs/node-waves/waves.min.js' %}"></script>
+
+</body>
+</html>
+
+<script>
+    $(document).ready(function () {
+        $('#print-button').on('click', function () {
+            window.print();
+        });
+
+        $('#date').on('change', function () {
+            let date = $(this).val();
+            let url = window.location.href.split('?')[0];
+            window.location.href = url + `?date=${date}`;
+        })
+    });
+</script>

@@ -1,0 +1,543 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load custom_tags %}
+{% load crispy_forms_tags %}
+
+{% block subtitle %}
+    {{ object }}
+{% endblock %}
+
+
+{% block content %}
+
+    {# NAVIGATIONS #}
+    <div class="row mb-4">
+        <div class="col-sm-6">
+            <a href="{% url 'admins:treasury-list' %}"><i class="fa fa-arrow-left"></i> Go Back</a>
+        </div>
+        <div class="col-6" style="text-align: right;">
+
+            {%  if request.user.is_superuser %}
+            <a href="{% url 'admins:treasury-update' object.pk %}" class="btn btn-primary">
+                <i class="fa fa-edit"></i> Change
+            </a>
+            {%  endif  %}
+
+            <a href="{% url 'admins:treasury-report' object.pk %}" class="btn btn-danger">
+                <i class="fa fa-print"></i> Reports (NJ)
+            </a>
+            <a href="{% url 'admins:treasury-report-judicial' object.pk %}" class="btn btn-danger">
+                <i class="fa fa-print"></i> Reports (J)
+            </a>
+
+        </div>
+    </div>
+
+    {# STATISTICS #}
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-body">
+
+                    {# IMAGE DIV #}
+                    <div class="text-center">
+                        <img class="rounded-circle" src="{% static 'core/images/base/no-user.png' %}"
+                             height="150px" alt="no-user-image">
+                    </div>
+
+                    {# NAME AND OTHER #}
+                    <div class="text-center mt-2">
+                        <h5 class="mb-0">
+                            {{ object }}
+                            {% if object.is_active %}
+                                <i class="fa fa-check-circle text-success"></i>
+                            {% else %}
+                                <i class="fa fa-times-circle text-danger"></i>
+                            {% endif %}
+                        </h5>
+                        <p class="mb-0">
+                            {{ object.address }}
+                        </p>
+                        <p class="mb-0 font-weight-bolder">
+                            <a href="mailto:{{ object.email }}"><i
+                                    class="fa fa-mail-forward"></i> {{ object.email|check_null }}
+                            </a> <br>
+                            <a href="tel:{{ object.phone_number }}"><i
+                                    class="fa fa-phone"></i> {{ object.phone_number|check_null }}</a>
+                        </p>
+                    </div>
+
+                    {# REMMAINING INFO AND STATS #}
+                    <div class="row mt-4 pt-4 border-top">
+                        <div class="col">
+                            <p class="mb-0 text-center h3">
+                                <i class="bx bx-user"></i>
+                            </p>
+                            <p class="mb-0 text-center h5">Staff</p>
+                            <p class="mb-0 text-center">{{ object.get_staff_count|cool_num }}</p>
+                        </div>
+                        <div class="col">
+                            <p class="mb-0 text-center h3"><i class="mdi mdi-arrow-down text-success"></i></p>
+                            <p class="mb-0 text-center h5">Stock in (NJ)</p>
+                            <p class="mb-0 text-center">
+                                <i class="bx bx-money"></i> {{ object.get_stock_in_amount|cool_num }} -
+                                <i class="bx bx-package"></i> {{ object.get_transactions_stock_in_count|cool_num }}
+                            </p>
+                        </div>
+                        <div class="col text-center">
+                            <p class="mb-0 text-center h3"><i class="mdi mdi-arrow-up text-danger"></i></p>
+                            <p class="mb-0 text-center h5">Stock Out (NJ)</p>
+                            <p class="mb-0 text-center">
+                                <i class="bx bx-money"></i> {{ object.get_stock_out_amount|cool_num }} -
+                                <i class="bx bx-package"></i> {{ object.get_transactions_stock_out_count|cool_num }}
+                            </p>
+                        </div>
+                        <div class="col text-center">
+                            <p class="mb-0 text-center h3"><i class="mdi mdi-arrange-bring-forward"></i></p>
+                            <p class="mb-0 text-center h5">Transfers (NJ)</p>
+                            <p class="mb-0 text-center">
+                                <i class="bx bx-money"></i> {{ object.get_transfer_amount|cool_num }} -
+                                <i class="bx bx-package"></i> {{ object.get_transactions_transfers_count|cool_num }}
+                            </p>
+                        </div>
+                        <div class="col">
+                            <p class="mb-0 text-center h3"><i class="mdi mdi-arrow-down text-success"></i></p>
+                            <p class="mb-0 text-center h5">Stock in (J)</p>
+                            <p class="mb-0 text-center">
+                                <i class="bx bx-money"></i> {{ object.get_stock_in_amount_judicial|cool_num }} -
+                                <i class="bx bx-package"></i> {{ object.get_transactions_stock_in_count_judicial|cool_num }}
+                            </p>
+                        </div>
+                        <div class="col text-center">
+                            <p class="mb-0 text-center h3"><i class="mdi mdi-arrow-up text-danger"></i></p>
+                            <p class="mb-0 text-center h5">Stock Out (J)</p>
+                            <p class="mb-0 text-center">
+                                <i class="bx bx-money"></i> {{ object.get_stock_out_amount_judicial|cool_num }} -
+                                <i class="bx bx-package"></i> {{ object.get_transactions_stock_out_count_judicial|cool_num }}
+                            </p>
+                        </div>
+                        <div class="col text-center">
+                            <p class="mb-0 text-center h3"><i class="mdi mdi-arrange-bring-forward"></i></p>
+                            <p class="mb-0 text-center h5">Transfers (J)</p>
+                            <p class="mb-0 text-center">
+                                <i class="bx bx-money"></i> {{ object.get_transfer_amount_judicial|cool_num }} -
+                                <i class="bx bx-package"></i> {{ object.get_transactions_transfers_count_judicial|cool_num }}
+                            </p>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="card-body border-top">
+                    <div class="row text-center">
+
+                        <div class="col">
+                            <h5 class="mb-1">100</h5>
+                            <p class="mb-0"><i class="bx bx-package"></i> {{ object.s100|cool_num }}</p>
+                        </div>
+
+                        <div class="col">
+                            <h5 class="mb-1">150</h5>
+                            <p class="mb-0"><i class="bx bx-package"></i> {{ object.s150|cool_num }}</p>
+                        </div>
+
+                        <div class="col">
+                            <h5 class="mb-1">200</h5>
+                            <p class="mb-0"><i class="bx bx-package"></i> {{ object.s200|cool_num }}</p>
+                        </div>
+
+                        <div class="col">
+                            <h5 class="mb-1">250</h5>
+                            <p class="mb-0"><i class="bx bx-package"></i> {{ object.s250|cool_num }}</p>
+                        </div>
+
+                        <div class="col">
+                            <h5 class="mb-1">300</h5>
+                            <p class="mb-0"><i class="bx bx-package"></i> {{ object.s300|cool_num }}</p>
+                        </div>
+
+                        <div class="col">
+                            <h5 class="mb-1">400</h5>
+                            <p class="mb-0"><i class="bx bx-package"></i> {{ object.s400|cool_num }}</p>
+                        </div>
+
+                        <div class="col">
+                            <h5 class="mb-1">500</h5>
+                            <p class="mb-0"><i class="bx bx-package"></i> {{ object.s500|cool_num }}</p>
+                        </div>
+
+                        <div class="col">
+                            <h5 class="mb-1">750</h5>
+                            <p class="mb-0"><i class="bx bx-package"></i> {{ object.s750|cool_num }}</p>
+                        </div>
+
+                        <div class="col">
+                            <h5 class="mb-1">1000</h5>
+                            <p class="mb-0"><i class="bx bx-package"></i> {{ object.s1000|cool_num }}</p>
+                        </div>
+
+                        <div class="col">
+                            <h5 class="mb-1">2000</h5>
+                            <p class="mb-0"><i class="bx bx-package"></i> {{ object.s2000|cool_num }}</p>
+                        </div>
+
+                        <div class="col">
+                            <h5 class="mb-1">3000</h5>
+                            <p class="mb-0"><i class="bx bx-package"></i> {{ object.s3000|cool_num }}</p>
+                        </div>
+
+                        <div class="col">
+                            <h5 class="mb-1">5000</h5>
+                            <p class="mb-0"><i class="bx bx-package"></i> {{ object.s5000|cool_num }}</p>
+                        </div>
+
+                        <div class="col">
+                            <h5 class="mb-1">10000</h5>
+                            <p class="mb-0"><i class="bx bx-package"></i> {{ object.s10000|cool_num }}</p>
+                        </div>
+
+                        <div class="col">
+                            <h5 class="mb-1">25000</h5>
+                            <p class="mb-0"><i class="bx bx-package"></i> {{ object.s25000|cool_num }}</p>
+                        </div>
+
+                        <div class="col">
+                            <h5 class="mb-1">50000</h5>
+                            <p class="mb-0"><i class="bx bx-package"></i> {{ object.s50000|cool_num }}</p>
+                        </div>
+
+                    </div>
+                </div>
+
+                {# FOR JUDICIAL [30,35,50,100,500,1000,2000,3000,5000,10000,15000] #}
+                <div class="card-body border-top">
+                    <div class="row text-center">
+                        <div class="col">
+                            <h5 class="mb-1">25</h5>
+                            <p class="mb-0"><i class="bx bx-package"></i> {{ object.j25|cool_num }}</p>
+                        </div>
+                        <div class="col">
+                            <h5 class="mb-1">30</h5>
+                            <p class="mb-0"><i class="bx bx-package"></i> {{ object.j30|cool_num }}</p>
+                        </div>
+                        <div class="col">
+                            <h5 class="mb-1">35</h5>
+                            <p class="mb-0"><i class="bx bx-package"></i> {{ object.j35|cool_num }}</p>
+                        </div>
+                        <div class="col">
+                            <h5 class="mb-1">50</h5>
+                            <p class="mb-0"><i class="bx bx-package"></i> {{ object.j50|cool_num }}</p>
+                        </div>
+                        <div class="col">
+                            <h5 class="mb-1">60</h5>
+                            <p class="mb-0"><i class="bx bx-package"></i> {{ object.j60|cool_num }}</p>
+                        </div>
+                        <div class="col">
+                            <h5 class="mb-1">75</h5>
+                            <p class="mb-0"><i class="bx bx-package"></i> {{ object.j75|cool_num }}</p>
+                        </div>
+                        <div class="col">
+                            <h5 class="mb-1">100</h5>
+                            <p class="mb-0"><i class="bx bx-package"></i> {{ object.j100|cool_num }}</p>
+                        </div>
+                        <div class="col">
+                            <h5 class="mb-1">125</h5>
+                            <p class="mb-0"><i class="bx bx-package"></i> {{ object.j125|cool_num }}</p>
+                        </div>
+                        <div class="col">
+                            <h5 class="mb-1">150</h5>
+                            <p class="mb-0"><i class="bx bx-package"></i> {{ object.j150|cool_num }}</p>
+                        </div>
+                        <div class="col">
+                            <h5 class="mb-1">200</h5>
+                            <p class="mb-0"><i class="bx bx-package"></i> {{ object.j200|cool_num }}</p>
+                        </div>
+                        <div class="col">
+                            <h5 class="mb-1">500</h5>
+                            <p class="mb-0"><i class="bx bx-package"></i> {{ object.j500|cool_num }}</p>
+                        </div>
+                        <div class="col">
+                            <h5 class="mb-1">1000</h5>
+                            <p class="mb-0"><i class="bx bx-package"></i> {{ object.j1000|cool_num }}</p>
+                        </div>
+                        <div class="col">
+                            <h5 class="mb-1">2000</h5>
+                            <p class="mb-0"><i class="bx bx-package"></i> {{ object.j2000|cool_num }}</p>
+                        </div>
+                        <div class="col">
+                            <h5 class="mb-1">3000</h5>
+                            <p class="mb-0"><i class="bx bx-package"></i> {{ object.j3000|cool_num }}</p>
+                        </div>
+                        <div class="col">
+                            <h5 class="mb-1">5000</h5>
+                            <p class="mb-0"><i class="bx bx-package"></i> {{ object.j5000|cool_num }}</p>
+                        </div>
+                        <div class="col">
+                            <h5 class="mb-1">10000</h5>
+                            <p class="mb-0"><i class="bx bx-package"></i> {{ object.j10000|cool_num }}</p>
+                        </div>
+                        <div class="col">
+                            <h5 class="mb-1">15000</h5>
+                            <p class="mb-0"><i class="bx bx-package"></i> {{ object.j15000|cool_num }}</p>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {# GRAPHS #}
+    <div class="row">
+        <div class="col-sm-6">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title mb-3">{% now 'Y' %} Totals (Non Judicial)</h4>
+                    <div id="chart_year_months">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title mb-3">{% now 'Y' %} Amounts (Non Judicial)</h4>
+                    <div id="chart_year_months_amounts">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-6">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title mb-3">{% now 'Y' %} Totals (Judicial)</h4>
+                    <div id="chart_year_months_judicial">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title mb-3">{% now 'Y' %} Amounts (Judicial)</h4>
+                    <div id="chart_year_months_amounts_judicial">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {# RECENTS #}
+    {% if request.user.is_superuser %}
+    <div class="row">
+
+        <div class="col-sm-12">
+
+            <div class="card">
+                <div class="card-body border-bottom">
+                    <p class="card-title mb-0 d-flex justify-content-between align-items-center">
+                        <b>Staff Members</b>
+                        <span class="ml-auto">
+                            <a href="{% url 'admins:user-list' %}?treasury={{ object.pk }}&username=&first_name=&last_name=&email="><i
+                                    class="fa fa-link"></i> view
+                            </a>
+                        </span>
+                    </p>
+                </div>
+                <div class="card-body p-0">
+                    {% if object.get_staff %}
+                        <div class="team p-4">
+                            {% for object_ in object.get_staff %}
+
+                                <a href="{% url 'admins:user-detail' object_.pk %}" class="team-member d-inline-block"
+                                   data-toggle="tooltip"
+                                   data-placement="top" title="" data-original-title="{{ object_.get_full_name }}">
+                                    <img src="
+
+
+
+
+
+
+                                            {% if object_.profile_image %}{{ object_.profile_image.url }}{% else %}https://placehold.co/50{% endif %}"
+                                         class="rounded-circle avatar-md m-1" alt="">
+                                </a>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        <p class="mb-0 p-4 text-danger"><b>No staff available</b></p>
+                    {% endif %}
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+    {% endif %}
+
+
+{% endblock %}
+
+{% block js %}
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+{% endblock %}
+
+{% block js_code %}
+    <script>
+        let options_year_months = {
+            series: [{
+                name: 'Transfer',
+                data: {{ transfer_count }}
+            }, {
+                name: 'Stock In',
+                data: {{stockin_count}}
+            }, {
+                name: 'Stock Out',
+                data: {{stockout_count}}
+            }]
+            ,
+            chart: {
+                height: 225,
+                type: 'area'
+            },
+            dataLabels: {
+                enabled: false
+            },
+            stroke: {
+                curve: 'smooth'
+            },
+            xaxis: {
+                type: 'number',
+                categories: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
+            },
+            yaxis: {
+                labels: {
+                    formatter: function (value) {
+                        return coolNumberFormatter(parseInt(value));
+                    }
+                }
+            }
+        };
+        let chart_year_months = new ApexCharts(document.querySelector("#chart_year_months"), options_year_months);
+        chart_year_months.render();
+
+        let options_year_months_amounts = {
+            series: [{
+                name: 'Transfer',
+                data: {{ transfer_amount }}
+            }, {
+                name: 'Stock In',
+                data: {{stockin_amount}}
+            }, {
+                name: 'Stock Out',
+                data: {{stockout_amount}}
+            }]
+            ,
+            chart: {
+                height: 225,
+                type: 'bar'
+            },
+            dataLabels: {
+                enabled: false
+            },
+            stroke: {
+                curve: 'smooth'
+            },
+            xaxis: {
+                type: 'number',
+                categories: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
+            },
+            yaxis: {
+                labels: {
+                    formatter: function (value) {
+                        return coolNumberFormatter(parseInt(value));
+                    }
+                }
+            }
+        };
+        let chart_year_months_amounts = new ApexCharts(document.querySelector("#chart_year_months_amounts"), options_year_months_amounts);
+        chart_year_months_amounts.render();
+
+        let options_year_months_judicial = {
+            series: [{
+                name: 'Transfer',
+                data: {{ transfer_count_judicial }}
+            }, {
+                name: 'Stock In',
+                data: {{stockin_count_judicial}}
+            }, {
+                name: 'Stock Out',
+                data: {{stockout_count_judicial}}
+            }]
+            ,
+            chart: {
+                height: 225,
+                type: 'area'
+            },
+            dataLabels: {
+                enabled: false
+            },
+            stroke: {
+                curve: 'smooth'
+            },
+            xaxis: {
+                type: 'number',
+                categories: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
+            },
+            yaxis: {
+                labels: {
+                    formatter: function (value) {
+                        return coolNumberFormatter(parseInt(value));
+                    }
+                }
+            }
+        };
+        let chart_year_months_judicial = new ApexCharts(document.querySelector("#chart_year_months_judicial"), options_year_months_judicial);
+        chart_year_months_judicial.render();
+
+        let options_year_months_amounts_judicial = {
+            series: [{
+                name: 'Transfer',
+                data: {{ transfer_amount_judicial }}
+            }, {
+                name: 'Stock In',
+                data: {{stockin_amount_judicial}}
+            }, {
+                name: 'Stock Out',
+                data: {{stockout_amount_judicial}}
+            }]
+            ,
+            chart: {
+                height: 225,
+                type: 'bar'
+            },
+            dataLabels: {
+                enabled: false
+            },
+            stroke: {
+                curve: 'smooth'
+            },
+            xaxis: {
+                type: 'number',
+                categories: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
+            },
+            yaxis: {
+                labels: {
+                    formatter: function (value) {
+                        return coolNumberFormatter(parseInt(value));
+                    }
+                }
+            }
+        };
+        let chart_year_months_amounts_judicial = new ApexCharts(document.querySelector("#chart_year_months_amounts_judicial"), options_year_months_amounts_judicial);
+        chart_year_months_amounts_judicial.render();
+
+        function coolNumberFormatter(value) {
+            return value.toLocaleString();
+        }
+
+    </script>
+
+{% endblock %}
+

@@ -1,0 +1,206 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load custom_tags %}
+{% load crispy_forms_tags %}
+{% load humanize %}
+
+{% block subtitle %}
+   Non Judicial Request #{{ object.pk }}
+{% endblock %}
+
+{% block page_heading_right %}
+    <a class="btn btn-primary" href="{% url 'admins:request-list' %}"><i class="fa fa-arrow-left"></i> Go Back</a>
+    {% if object.status != 'completed' %}
+        <a class="btn btn-primary" href="{% url 'admins:request-update' object.pk %}">
+            <i class="fa fa-edit"></i> update records
+        </a>
+    {% endif %}
+
+    {% if object.status == 'cancelled' %}
+        <a class="btn btn-danger" href="{% url 'admins:request-delete' object.pk %}">
+            <i class="fa fa-trash"></i> delete records
+        </a>
+    {% endif %}
+
+{% endblock %}
+
+
+{% block content %}
+
+    <div class="row">
+        <div class="col">
+            <div class="card">
+                <div class="card-body">
+                    <div class="col">
+                        <p class="mb-0 text-center h3">
+                            <i class="bx bx-archive mr-2"></i>
+                        </p>
+                        <p class="mb-0 text-center h5">Source</p>
+                        <p class="mb-0 text-center">{{ object.source_treasury }}</p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div class="col">
+            <div class="card">
+                <div class="card-body">
+                    <div class="col">
+                        <p class="mb-0 text-center h3">
+                            <i class="bx bx-archive mr-2"></i>
+                        </p>
+                        <p class="mb-0 text-center h5">Destination</p>
+                        <p class="mb-0 text-center">{{ object.destination_treasury }}</p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div class="col">
+            <div class="card">
+                <div class="card-body">
+                    <div class="col">
+                        <p class="mb-0 text-center h3">
+                            <i class="fa fa-money"></i>
+                        </p>
+                        <p class="mb-0 text-center h5">Total Price</p>
+                        <p class="mb-0 text-center">{{ object.amount|intcomma }}</p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div class="col">
+            <div class="card">
+                <div class="card-body">
+                    <div class="col">
+                        <p class="mb-0 text-center h3">
+                            <i class="fa fa-sort-amount-asc"></i>
+                        </p>
+                        <p class="mb-0 text-center h5">Total Quantity</p>
+                        <p class="mb-0 text-center">{{ object.quantity|intcomma }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card">
+                <div class="card-body">
+                    <div class="col">
+                        <p class="mb-0 text-center h3">
+
+                            {% if object.status == 'completed' %}
+                                <i class="text-success bx bx-check-circle"></i>
+                            {% elif object.status == 'working' %}
+                                <span class="text-primary bx bx-cog bx-spin"></span>
+                            {% elif object.status == 'pending' %}
+                                <span class="text-warning fa fa-exclamation"></span>
+                            {% else %}
+                                <span class="text-danger"></span>
+                            {% endif %}
+                        </p>
+                        <p class="mb-0 text-center h5">Status</p>
+                        <p class="mb-0 text-center">{{ object.status }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="row mt-2">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-borderless table-striped table-hover">
+                            <tr class="border-bottom bg-white">
+                                <th>Stamp Paper</th>
+                                <th>Quantity
+                                </th>
+                                <th>Price
+                                </th>
+                            </tr>
+                            <tr>
+                                <td>RS 100</td>
+                                <td>{{ object.s100 }}</td>
+                                <td>{% multiply object.s100 100 %}</td>
+                            </tr>
+                            <tr>
+                                <td>RS 150</td>
+                                <td>{{ object.s150 }}</td>
+                                <td>{% multiply object.s150 150 %}</td>
+                            </tr>
+                            <tr>
+                                <td>RS 200</td>
+                                <td>{{ object.s200 }}</td>
+                                <td>{% multiply object.s200 200 %}</td>
+                            </tr>
+                            <tr>
+                                <td>RS 250</td>
+                                <td>{{ object.s250 }}</td>
+                                <td>{% multiply object.s250 250 %}</td>
+                            </tr>
+                            <tr>
+                                <td>RS 300</td>
+                                <td>{{ object.s300 }}</td>
+                                <td>{% multiply object.s300 300 %}</td>
+                            </tr>
+                            <tr>
+                                <td>RS 400</td>
+                                <td>{{ object.s400 }}</td>
+                                <td>{% multiply object.s400 400 %}</td>
+                            </tr>
+                            <tr>
+                                <td>RS 500</td>
+                                <td>{{ object.s500 }}</td>
+                                <td>{% multiply object.s500 500 %}</td>
+                            </tr>
+                            <tr>
+                                <td>RS 750</td>
+                                <td>{{ object.s750 }}</td>
+                                <td>{% multiply object.s750 750 %}</td>
+                            </tr>
+                            <tr>
+                                <td>RS 1000</td>
+                                <td>{{ object.s1000 }}</td>
+                                <td>{% multiply object.s1000 1000 %}</td>
+                            </tr>
+                            <tr>
+                                <td>RS 2000</td>
+                                <td>{{ object.s2000 }}</td>
+                                <td>{% multiply object.s2000 2000 %}</td>
+                            </tr>
+                            <tr>
+                                <td>RS 3000</td>
+                                <td>{{ object.s3000 }}</td>
+                                <td>{% multiply object.s3000 3000 %}</td>
+                            </tr>
+                            <tr>
+                                <td>RS 5000</td>
+                                <td>{{ object.s5000 }}</td>
+                                <td>{% multiply object.s5000 5000 %}</td>
+                            </tr>
+                            <tr>
+                                <td>RS 10000</td>
+                                <td>{{ object.s10000 }}</td>
+                                <td>{% multiply object.s10000 10000 %}</td>
+                            </tr>
+                            <tr>
+                                <td>RS 25000</td>
+                                <td>{{ object.s25000 }}</td>
+                                <td>{% multiply object.s25000 25000 %}</td>
+                            </tr>
+                            <tr>
+                                <td>RS 50000</td>
+                                <td>{{ object.s50000 }}</td>
+                                <td>{% multiply object.s50000 50000 %}</td>
+                            </tr>
+
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

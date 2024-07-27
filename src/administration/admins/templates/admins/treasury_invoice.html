@@ -1,0 +1,140 @@
+{% load humanize %}
+{% load static %}
+{% load custom_tags %}
+
+<html>
+<head>
+    <title>Denomination Report</title>
+    <link rel="icon" href="{% static 'core/logos/logo.png' %}">
+    <link rel="stylesheet" href="{% static 'core/css/app.min.css' %}">
+    <link rel="stylesheet" href="{% static 'core/css/bootstrap.min.css' %}">
+
+    <link rel="stylesheet" href="{% static 'core/css/icons.min.css' %}">
+    <link rel="stylesheet" href="{% static 'print.css' %}" media="print">
+</head>
+<body>
+<div class="container py-4">
+
+    <div class="row justify-content-end">
+        <div class="col-12 text-right">
+            <button id="print-button" class="btn btn-primary btn-sm shadow-lg">
+                <i class="fa fa-print"></i> Print Report
+            </button>
+        </div>
+    </div>
+
+    {# RECEIVER #}
+    <div class="row">
+        {# HEAD #}
+        <div class="col-sm-12 text-center">
+            <img src="{% static 'core/logos/logo.png' %}" height="80">
+            <p class="mt-2 mb-0 h3">KPK Revenue Department</p>
+            <p class="mb-0 h5">(Stamps Inventory Management System)</p>
+        </div>
+
+        {# SUB HEAD - LEFT #}
+        <div class="col-sm-12">
+            <div class="row">
+
+                <div class="col-sm-6">
+                    <div>
+                        <p class="mb-0">District</p>
+                        <h5>{{ object.city }}</h5>
+                    </div>
+                    <div class="">
+                        <p class="mb-0">Report Type</p>
+                        <h5>{{ report_type }}</h5>
+                    </div>
+                </div>
+                <div class="col-sm-6 text-right">
+                    <div class="">
+                        <p class="mb-0">Denomination</p>
+                        <h5> {{ type }} </h5>
+                    </div>
+                    <div class="">
+                        <div class="">
+                            <p class="mb-0">Date</p>
+                            <h5> {% now 'd/M/Y' %} </h5>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="col-sm-6">
+
+        </div>
+        {# CART INFO #}
+        <div class="col-sm-12 mt-4">
+            <div class="table-responsive">
+
+                <table class="table table-bordered table-sm">
+                    <thead>
+                    <tr>
+                        <th>Denomination</th>
+                        <th class="text-right">Quantity</th>
+                        <th class="text-right">Manufacture Cost</th>
+                        <th class="text-right">Price</th>
+                        <th class="text-right">Total</th>
+                    </tr>
+
+                    </thead>
+                    <tbody>
+
+                    {% if type == 'low' %}
+                        {% include 'admins/include/low.html' %}
+                    {% elif type == 'high' %}
+                        {% include 'admins/include/high.html' %}
+                    {% else %}
+                        {% include 'admins/include/all.html' %}
+                    {% endif %}
+
+                    <tr class="border-top">
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th class="text-right">Amount (Rs)</th>
+                        <th class="text-right">{{ amount|intcomma }}</th>
+                    </tr>
+                    <tr>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th class="text-right">Quantity</th>
+                        <th class="text-right">{{ count|intcomma }}</th>
+                    </tr>
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </div>
+
+    <hr>
+    <div class="row">
+        <div class="col-sm-12 text-center">
+            <p class="mb-0">This report is generated from SIMS (KPK)</p>
+        </div>
+    </div>
+
+
+</div>
+
+<script src="{% static 'core/libs/jquery/jquery.min.js' %}"></script>
+<script src="{% static 'core/libs/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+<script src="{% static 'core/libs/metismenu/metisMenu.min.js' %}"></script>
+<script src="{% static 'core/libs/simplebar/simplebar.min.js' %}"></script>
+<script src="{% static 'core/libs/node-waves/waves.min.js' %}"></script>
+
+</body>
+</html>
+
+<script>
+    $(document).ready(function () {
+        $('#print-button').on('click', function () {
+            window.print(); // Trigger the browser's print dialog
+        });
+    });
+</script>

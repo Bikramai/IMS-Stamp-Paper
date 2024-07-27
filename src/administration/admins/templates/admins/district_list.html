@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% load custom_tags %}
+
+{% block subtitle %}
+    Districts
+{% endblock %}
+
+{% block content %}
+
+    <div class="row">
+        <div class="col-12">
+            <div class="page-title-box">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <p class="mb-0 font-size-24">
+                            Districts
+                        </p>
+                    </div>
+                    <div class="col-sm-6 text-right">
+
+                        <a href="{% url 'admins:district-create' %}" class="btn btn-success">
+                            <i class="fa fa-plus"></i> Add New
+                        </a>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        {% if object_list %}
+            {% for object in object_list %}
+                <div class="col-lg-2">
+                    <div class="card border shadow" style="">
+                        <div class="p-4 card-body">
+                            <div class="text-center">
+                                <a href="{% url 'admins:district-update' object.pk %}" class="text-body">
+                                    <h5 class="mb-2 font-size-15">
+                                        {{ object.name }}
+                                    </h5>
+                                </a>
+                                <p class="mb-0 text-muted"><i class="fa fa-globe"></i> {{ object.state }}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+
+        {% else %}
+            <p class="mb-0"><b class="text-danger">No treasuries available.</b></p>
+        {% endif %}
+    </div>
+
+{% endblock %}
+
+

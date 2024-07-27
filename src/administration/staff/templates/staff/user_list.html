@@ -1,0 +1,111 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% load custom_tags %}
+
+{% block subtitle %}
+    Users Management
+{% endblock %}
+
+{% block content %}
+
+    <div class="row">
+        <div class="col-12">
+            <div class="page-title-box">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <p class="mb-0 font-size-24">
+                            Users Management
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-body">
+
+                    {% if user_list %}
+                        <div class="table-responsive">
+                            <table class="table table-borderless table-hover">
+                                <thead class="border-bottom">
+                                <tr>
+                                    <th>User</th>
+                                    <th>Username</th>
+                                    <th>Email</th>
+                                    <th>Phone Number</th>
+                                    <th>Active</th>
+                                    <th>Role</th>
+                                    <th class="text-center">Action</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+
+                                {% for user in user_list %}
+                                    <tr>
+                                        <td>
+                                            {% if user.profile_image %}
+                                                <img src="{{ user.profile_image.url }}"
+                                                     class="rounded-circle header-profile-user">
+                                            {% else %}
+                                                <img src="https://placehold.co/50"
+                                                     class="rounded-circle header-profile-user">
+                                            {% endif %}
+                                            <span>{{ user.get_full_name|check_null }}</span>
+                                        </td>
+                                        <td>{{ user.username }}</td>
+                                        <td>
+                                            <a href="mailto:{{ user.email }}">{{ user.email|check_null }}</a>
+                                        </td>
+                                        <td>
+                                            <a href="tel:{{ user.phone_number }}">{{ user.phone_number|check_null }}</a>
+                                        </td>
+                                        <td>
+                                            {% if user.is_active %}
+                                                <b class="text-success"><i class="fa fa-check-circle"></i></b>
+
+                                            {% else %}
+                                                <b class="text-danger"><i class="fa fa-times-circle"></i></b>
+
+                                            {% endif %}
+                                        </td>
+
+                                        <td>
+                                            {% if user.is_staff %}
+                                                {% if user.is_superuser %}
+                                                    <b class="text-danger">Admin</b>
+                                                {% else %}
+                                                    <b class="text-warning">Staff</b>
+                                                {% endif %}
+                                            {% else %}
+                                                <b class="text-primary">Member</b>
+                                            {% endif %}
+                                        </td>
+
+                                        <td class="text-center">
+                                            <a href="{% url 'staff:user-detail' user.pk %}"
+                                               class="btn btn-primary btn-sm btn-rounded waves-effect waves-light">
+                                                <i class="mdi mdi-eye icon-sm"></i> view
+                                            </a>
+                                        </td>
+
+                                    </tr>
+                                {% endfor %}
+
+                                </tbody>
+                            </table>
+                        </div>
+                    {% else %}
+                        <p class="mb-0"><b class="text-danger">No users available.</b></p>
+                    {% endif %}
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+{% endblock %}
+

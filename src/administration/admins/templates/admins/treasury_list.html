@@ -1,0 +1,207 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% load custom_tags %}
+
+{% block subtitle %}
+    Treasuries Management
+{% endblock %}
+
+{% block content %}
+
+    <div class="row">
+        <div class="col-12">
+            <div class="page-title-box">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <p class="mb-0 font-size-24">
+                            Treasuries Management
+                        </p>
+                    </div>
+                    <div class="col-sm-6 text-right">
+
+                        <a href="{% url 'admins:treasury-create' %}" class="btn btn-success">
+                            <i class="fa fa-plus"></i> Add New Treasury
+                        </a>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-12">
+            <form method="get">
+                <div class="input-group mb-3">
+                    {{ filter_form }}
+                    <div class="input-group-append">
+                        <button class="btn btn-primary" type="submit">
+                            <i class="fa fa-search"></i>
+                        </button>
+                        <a class="btn btn-danger" href="{% url 'admins:treasury-list' %}">
+                            <i class="fa fa-brush"></i>
+                        </a>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-body">
+
+                    {% if object_list %}
+                        <div class="table-responsive">
+
+                            <table class="table table-borderless table-hover">
+                                <thead class="border-bottom">
+                                <tr>
+                                    <th class="align-middle">District</th>
+                                    <th class="align-middle">
+                                        <b><i class="bx bxs-user"></i></b> Staff
+                                    </th>
+                                    <th class="align-middle">
+                                        <b><i class="fa fa-arrow-down text-success"></i></b> Stock In (NJ)
+                                    </th>
+                                    <th class="align-middle">
+                                        <b><i class="fa fa-arrow-up text-danger"></i></b> Stock Out (NJ)
+                                    </th>
+                                    <th class="align-middle">
+                                        <b><i class="fa fa-truck-loading text-primary"></i></b>
+                                        Transfers (NJ)
+                                    </th>
+                                    <th class="align-middle">
+                                        <b><i class="fa fa-arrow-down text-success"></i></b> Stock In (J)
+                                    </th>
+                                    <th class="align-middle">
+                                        <b><i class="fa fa-arrow-up text-danger"></i></b> Stock Out (J)
+                                    </th>
+                                    <th class="align-middle">
+                                        <b><i class="fa fa-truck-loading text-primary"></i></b>
+                                        Transfers (J)
+                                    </th>
+                                    <th class="align-middle">Status</th>
+                                    <th class="align-middle">-</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+
+                                {% for object in object_list %}
+                                    <tr>
+                                        <td>{{ object.city.name }}</td>
+                                        <td>
+                                            {{ object.get_staff_count }}
+                                        </td>
+                                        <td>
+                                            <i class="bx bx-money"></i> {{ object.get_stock_in_amount|cool_num }} -
+                                            <i class="bx bx-package"></i> {{ object.get_transactions_stock_in_count }}
+                                        </td>
+                                        <td>
+                                            <i class="bx bx-money"></i> {{ object.get_stock_out_amount|cool_num }} -
+                                            <i class="bx bx-package"></i> {{ object.get_transactions_stock_out_count }}
+                                        </td>
+                                        <td>
+                                            <i class="bx bx-money"></i> {{ object.get_transfer_amount|cool_num }} -
+                                            <i class="bx bx-package"></i> {{ object.get_transactions_transfers_count }}
+                                        </td>
+                                    <td>
+                                            <i class="bx bx-money"></i>
+                                            {{ object.get_stock_in_amount_judicial|cool_num }} -
+                                            <i class="bx bx-package"></i>
+                                            {{ object.get_transactions_stock_in_count_judicial }}
+                                        </td>
+                                        <td>
+                                            <i class="bx bx-money"></i>
+                                            {{ object.get_stock_out_amount_judicial|cool_num }} -
+                                            <i class="bx bx-package"></i>
+                                            {{ object.get_transactions_stock_out_count_judicial }}
+                                        </td>
+                                        <td>
+                                            <i class="bx bx-money"></i>
+                                            {{ object.get_transfer_amount_judicial|cool_num }} -
+                                            <i class="bx bx-package"></i>
+                                            {{ object.get_transactions_transfers_count_judicial }}
+                                        </td>
+                                        <td>
+                                            {% if object.is_active %}
+                                                <span class="badge badge-pill badge-soft-success font-size-11">active</span>
+                                            {% else %}
+                                                <span class="badge badge-pill badge-soft-danger font-size-11">inactive</span>
+                                            {% endif %}
+                                        </td>
+                                        <td>
+                                            <a href="{% url 'admins:treasury-detail' object.pk %}"
+                                               class="btn btn-primary btn-sm btn-rounded waves-effect waves-light">
+                                                <i class="mdi mdi-eye icon-sm"></i> view
+                                            </a>
+                                            <a href="{% url 'admins:treasury-report-judicial' object.pk %}"
+                                               class="btn btn-danger btn-sm btn-rounded waves-effect waves-light">
+                                                <i class="mdi mdi-printer icon-sm"> J</i>
+                                            </a>
+                                            <a href="{% url 'admins:treasury-report' object.pk %}"
+                                               class="btn btn-danger btn-sm btn-rounded waves-effect waves-light">
+                                                <i class="mdi mdi-printer icon-sm"> NJ</i>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+
+                                </tbody>
+                            </table>
+                        </div>
+                    {% else %}
+                        <p class="mb-0"><b class="text-danger">No treasuries available.</b></p>
+                    {% endif %}
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="mt-0">
+                <ul class="pagination">
+                    {% if object_list.has_previous %}
+                        <li>
+                            <span>
+                                <a href="{% relative_url object_list.previous_page_number 'page' request.GET.urlencode %}">
+                                    Previous
+                                </a>
+                            </span>
+                        </li>
+                    {% endif %}
+                    <li class="">
+                        <span>Page {{ object_list.number }} of {{ object_list.paginator.num_pages }}.</span>
+                    </li>
+                    {% if object_list.has_next %}
+                        <li>
+                            <span>
+                                <a href="{% relative_url object_list.next_page_number 'page' request.GET.urlencode %}">
+                                    Next
+                                </a>
+                            </span>
+                        </li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block js_code %}
+    <script>
+        $(document).ready(function () {
+
+            $('label').hide();
+            $('input').addClass('form-control');
+            $('select').addClass('form-control');
+
+        });
+    </script>
+{% endblock %}
+

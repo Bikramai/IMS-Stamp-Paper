@@ -1,0 +1,338 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% load custom_tags %}
+{% load humanize %}
+
+{% block subtitle %} Dashboard {% endblock %}
+
+{% block content %}
+
+    <div class="row mb-4">
+        <div class="col-sm-6 text-left">
+            {% if dashboard == "judicial" %}
+                <a href="{% url 'admins:dashboard' %}" class="btn btn-sm btn-light bg-soft-success">
+                    <b><i class="bx bxs-dashboard"></i> Switch Non-Judicial</b>
+                </a>
+            {% else %}
+                <a href="{% url 'admins:dashboard-judicial' %}" class="btn btn-sm bg-soft-success">
+                    <b><i class="bx bxs-dashboard"></i> Switch Judicial</b>
+                </a>
+            {% endif %}
+        </div>
+        <div class="col-sm-6 text-right">
+            {% if dashboard == "judicial" %}
+                <a href="{% url 'admins:overall-reports-judicial' %}?type=full" class="btn btn-sm btn-light">
+                    <i class="bx bx-printer"></i> judicial reports
+                </a>
+            {% else %}
+                <a href="{% url 'admins:overall-reports' %}?type=full" class="btn btn-sm btn-light">
+                    <i class="bx bx-printer"></i> non judicial reports
+                </a>
+            {% endif %}
+        </div>
+    </div>
+
+    {# OVERALL #}
+    <div class="row">
+
+        <div class="col-sm-4">
+            <div class="mini-stats-wid card" style="">
+                <div class="card-body">
+                    <div class="d-flex">
+                        <div class="flex-grow-1">
+                            <p class="text-muted fw-medium">Treasuries</p>
+                            <h4 class="mb-0">{{ total_treasury|cool_num }}</h4>
+                        </div>
+                        <div class="mini-stat-icon avatar-sm rounded-circle bg-primary align-self-center">
+                            <span class="avatar-title">
+                            <i class="bx bx-archive font-size-24"></i>
+                        </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-2">
+            <div class="mini-stats-wid card" style="">
+                <div class="card-body">
+                    <div class="d-flex">
+                        <div class="flex-grow-1">
+                            <p class="text-muted fw-medium">Stock In</p>
+                            <h4 class="mb-0">{{ sts_stock_in_amount|cool_num }}</h4>
+                        </div>
+                        <div class="mini-stat-icon avatar-sm rounded-circle bg-primary align-self-center">
+                            <span class="avatar-title">
+                            <i class="bx bx-archive-in font-size-24"></i>
+                        </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-2">
+            <div class="mini-stats-wid card" style="">
+                <div class="card-body">
+                    <div class="d-flex">
+                        <div class="flex-grow-1">
+                            <p class="text-muted fw-medium">Stock Out</p>
+                            <h4 class="mb-0">{{ sts_stock_out_amount|cool_num }}</h4>
+                        </div>
+                        <div class="mini-stat-icon avatar-sm rounded-circle bg-primary align-self-center">
+                            <span class="avatar-title">
+                            <i class="bx bx-archive-out font-size-24"></i>
+                        </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-2">
+            <div class="mini-stats-wid card" style="">
+                <div class="card-body">
+                    <div class="d-flex">
+                        <div class="flex-grow-1">
+                            <p class="text-muted fw-medium">Transfers</p>
+                            <h4 class="mb-0">{{ sts_transfer_amount|cool_num }}</h4>
+                        </div>
+                        <div class="mini-stat-icon avatar-sm rounded-circle bg-primary align-self-center">
+                            <span class="avatar-title">
+                            <i class="bx bxs-truck font-size-24"></i>
+                        </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-2">
+            <div class="mini-stats-wid card" style="">
+                <div class="card-body">
+                    <div class="d-flex">
+                        <div class="flex-grow-1">
+                            <p class="text-muted fw-medium">Staff</p>
+                            <h4 class="mb-0">{{ total_staff|cool_num }}</h4>
+                        </div>
+                        <div class="mini-stat-icon avatar-sm rounded-circle bg-primary align-self-center">
+                            <span class="avatar-title">
+                            <i class="bx bx-user-circle font-size-24"></i>
+                        </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+    <div class="row">
+
+        <div class="col-sm-6">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title mb-3">{% now 'Y' %} Totals</h4>
+                    <div id="chart_year_months">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title mb-3">{% now 'Y' %} Amounts</h4>
+                    <div id="chart_year_months_amounts">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    {# TREASURIES #}
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card" style="">
+                <div class="card-body">
+                    <div class="mb-4 h4 card-title">Treasuries</div>
+
+                    {% if treasuries %}
+                        <div class="table-responsive">
+                            <table class="table table-hover table-striped align-middle table-nowrap mb-0">
+                                <thead class="table-light">
+                                <tr>
+                                    <th class="align-middle">District</th>
+                                    <th class="align-middle">
+                                        <b><i class="bx bxs-user"></i></b> Staff
+                                    </th>
+                                    <th class="align-middle">
+                                        <b><i class="fa fa-arrow-down text-success"></i></b> Stock In
+                                    </th>
+                                    <th class="align-middle">
+                                        <b><i class="fa fa-arrow-up text-danger"></i></b> Stock Out
+                                    </th>
+                                    <th class="align-middle">
+                                        <b><i class="fa fa-truck-loading text-primary"></i></b>
+                                        Transfers
+                                    </th>
+                                    <th class="align-middle">Status</th>
+                                    <th class="align-middle">-</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for object_ in treasuries %}
+                                    <tr>
+                                        <td>{{ object_.city.name }}</td>
+                                        <td>
+                                            {{ object_.get_staff_count }}
+                                        </td>
+                                        {% if dashboard == "judicial" %}
+                                            <td>
+                                                <i class="bx bx-money"></i> {{ object_.get_stock_in_amount_judicial|cool_num }} -
+                                                <i class="bx bx-package"></i> {{ object_.get_transactions_stock_in_count_judicial }}
+                                            </td>
+                                            <td>
+                                                <i class="bx bx-money"></i> {{ object_.get_stock_out_amount_judicial|cool_num }}
+                                                -
+                                                <i class="bx bx-package"></i> {{ object_.get_transactions_stock_out_count_judicial }}
+                                            </td>
+                                            <td>
+                                                <i class="bx bx-money"></i> {{ object_.get_transfer_amount_judicial|cool_num }} -
+                                                <i class="bx bx-package"></i> {{ object_.get_transactions_transfers_count_judicial }}
+                                            </td>
+                                        {% else %}
+                                            <td>
+                                                <i class="bx bx-money"></i> {{ object_.get_stock_in_amount|cool_num }} -
+                                                <i class="bx bx-package"></i> {{ object_.get_transactions_stock_in_count }}
+                                            </td>
+                                            <td>
+                                                <i class="bx bx-money"></i> {{ object_.get_stock_out_amount|cool_num }}
+                                                -
+                                                <i class="bx bx-package"></i> {{ object_.get_transactions_stock_out_count }}
+                                            </td>
+                                            <td>
+                                                <i class="bx bx-money"></i> {{ object_.get_transfer_amount|cool_num }} -
+                                                <i class="bx bx-package"></i> {{ object_.get_transactions_transfers_count }}
+                                            </td>
+                                        {% endif %}
+                                        <td>
+                                            {% if object_.is_active %}
+                                                <span class="badge badge-pill badge-soft-success font-size-11">active</span>
+                                            {% else %}
+                                                <span class="badge badge-pill badge-soft-danger font-size-11">inactive</span>
+                                            {% endif %}
+                                        </td>
+                                        <td>
+                                            <a href="{% url 'admins:treasury-detail' object_.pk %}"
+                                               class="btn btn-primary btn-sm btn-rounded waves-effect waves-light">
+                                                <i class="mdi mdi-eye icon-sm"></i> view
+                                            </a>
+                                            <a href="{% url 'admins:treasury-report' object_.pk %}"
+                                               class="btn btn-danger btn-sm btn-rounded waves-effect waves-light">
+                                                <i class="mdi mdi-printer icon-sm"></i>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+
+                                </tbody>
+                            </table>
+                        </div>
+                    {% else %}
+                        <p class="text-danger">
+                            <b>No treasuries available</b>
+                        </p>
+                    {% endif %}
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+{% endblock content %}
+
+{% block js %}
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+{% endblock %}
+
+{% block js_code %}
+    <script>
+        let options_year_months = {
+            series: [{
+                name: 'Transfer',
+                data: {{ transfer_count }}
+            }, {
+                name: 'Stock In',
+                data: {{stockin_count}}
+            }, {
+                name: 'Stock Out',
+                data: {{stockout_count}}
+            }]
+            ,
+            chart: {
+                height: 225,
+                type: 'area'
+            },
+            dataLabels: {
+                enabled: false
+            },
+            stroke: {
+                curve: 'smooth'
+            },
+            xaxis: {
+                type: 'number',
+                categories: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
+            },
+            yaxis: {
+                labels: {
+                    formatter: function (value) {
+                        return coolNumberFormatter(parseInt(value));
+                    }
+                }
+            }
+        };
+        let chart_year_months = new ApexCharts(document.querySelector("#chart_year_months"), options_year_months);
+        chart_year_months.render();
+
+        let options_year_months_amounts = {
+            series: [{
+                name: 'Transfer',
+                data: {{ transfer_amount }}
+            }, {
+                name: 'Stock In',
+                data: {{stockin_amount}}
+            }, {
+                name: 'Stock Out',
+                data: {{stockout_amount}}
+            }],
+            chart: {
+                height: 225,
+                type: 'bar'
+            },
+            dataLabels: {
+                enabled: false
+            },
+            stroke: {
+                curve: 'smooth'
+            },
+            xaxis: {
+                type: 'number',
+                categories: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
+            },
+            yaxis: {
+                labels: {
+                    formatter: function (value) {
+                        return coolNumberFormatter(parseInt(value));
+                    }
+                }
+            }
+        };
+        let chart_year_months_amounts = new ApexCharts(document.querySelector("#chart_year_months_amounts"), options_year_months_amounts);
+        chart_year_months_amounts.render();
+
+        function coolNumberFormatter(value) {
+            return value.toLocaleString();
+        }
+
+    </script>
+
+{% endblock %}

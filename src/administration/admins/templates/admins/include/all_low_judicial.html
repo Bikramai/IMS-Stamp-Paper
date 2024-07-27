@@ -1,0 +1,82 @@
+{% load custom_tags %}
+
+<thead class="border-bottom">
+<tr>
+    <th><i class="fa fa-home"></i> Treasury</th>
+    <th>1000</th>
+    <th>500</th>
+    <th>200</th>
+    <th>150</th>
+    <th>125</th>
+    <th>100</th>
+    <th>75</th>
+    <th>60</th>
+    <th>50</th>
+    <th>35</th>
+    <th>30</th>
+    <th>25</th>
+</tr>
+</thead>
+<tbody>
+{% for object_ in object_list %}
+    <tr>
+        <td>
+            <a href="#">
+                <b>{{ object_.treasury }}</b>
+            </a>
+        </td>
+        <td>{{ object_.j1000 }}</td>
+        <td>{{ object_.j500 }}</td>
+        <td>{{ object_.j200 }}</td>
+        <td>{{ object_.j150 }}</td>
+        <td>{{ object_.j125 }}</td>
+        <td>{{ object_.j100 }}</td>
+        <td>{{ object_.j75 }}</td>
+        <td>{{ object_.j60 }}</td>
+        <td>{{ object_.j50 }}</td>
+        <td>{{ object_.j35 }}</td>
+        <td>{{ object_.j30 }}</td>
+        <td>{{ object_.j25 }}</td>
+    </tr>
+{% endfor %}
+</tbody>
+<tfoot class="border-top">
+<tr>
+    <th>
+        <b>
+            QUANTITIES
+        </b>
+    </th>
+     <th>{{ sums.j1000 }}</th>
+        <th>{{ sums.j500 }}</th>
+        <th>{{ sums.j200 }}</th>
+        <th>{{ sums.j150 }}</th>
+        <th>{{ sums.j125 }}</th>
+        <th>{{ sums.j100 }}</th>
+        <th>{{ sums.j75 }}</th>
+        <th>{{ sums.j60 }}</th>
+        <th>{{ sums.j50 }}</th>
+        <th>{{ sums.j35 }}</th>
+        <th>{{ sums.j30 }}</th>
+        <th>{{ sums.j25 }}</th>
+</tr>
+<tr>
+    <th>
+        <b>
+            TOTALS
+        </b>
+    </th>
+     <th>{{ amounts.j1000 }}</th>
+        <th>{{ amounts.j500 }}</th>
+        <th>{{ amounts.j200 }}</th>
+        <th>{{ amounts.j150 }}</th>
+        <th>{{ amounts.j125 }}</th>
+        <th>{{ amounts.j100 }}</th>
+        <th>{{ amounts.j75 }}</th>
+        <th>{{ amounts.j60 }}</th>
+        <th>{{ amounts.j50 }}</th>
+        <th>{{ amounts.j35 }}</th>
+        <th>{{ amounts.j30 }}</th>
+        <th>{{ amounts.j25 }}</th>
+</tr>
+</tfoot>

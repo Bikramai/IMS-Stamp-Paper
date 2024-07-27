@@ -1,0 +1,6 @@
+/* print.css */
+
+/* Hide the print button during printing */
+#print-button {
+    display: none;
+}

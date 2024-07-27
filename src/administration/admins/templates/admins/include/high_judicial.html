@@ -1,0 +1,38 @@
+{% load custom_tags %}
+{% load humanize %}
+
+<tr>
+    <td>D* 2000</td>
+    <td class="text-right">{{ object.j2000|intcomma }}</td>
+    <td class="text-right">{{ object.j2000|calculate_specific_value|intcomma }}</td>
+    <td class="text-right">2000</td>
+    <td class="text-right">{% multiply object.j2000 2000 %}</td>
+</tr>
+<tr>
+    <td>D* 3000</td>
+    <td class="text-right">{{ object.j3000|intcomma }}</td>
+    <td class="text-right">{{ object.j3000|calculate_specific_value|intcomma }}</td>
+    <td class="text-right">3000</td>
+    <td class="text-right">{% multiply object.j3000 3000 %}</td>
+</tr>
+<tr>
+    <td>D* 5000</td>
+    <td class="text-right">{{ object.j5000|intcomma }}</td>
+    <td class="text-right">{{ object.j5000|calculate_specific_value|intcomma }}</td>
+    <td class="text-right">5000</td>
+    <td class="text-right">{% multiply object.j5000 5000 %}</td>
+</tr>
+<tr>
+    <td>D* 10000</td>
+    <td class="text-right">{{ object.j10000|intcomma }}</td>
+    <td class="text-right">{{ object.j10000|calculate_specific_value|intcomma }}</td>
+    <td class="text-right">10000</td>
+    <td class="text-right">{% multiply object.j10000 10000 %}</td>
+</tr>
+<tr>
+    <td>D* 15000</td>
+    <td class="text-right">{{ object.j15000|intcomma }}</td>
+    <td class="text-right">{{ object.j15000|calculate_specific_value|intcomma }}</td>
+    <td class="text-right">15000</td>
+    <td class="text-right">{% multiply object.j15000 15000 %}</td>
+</tr>

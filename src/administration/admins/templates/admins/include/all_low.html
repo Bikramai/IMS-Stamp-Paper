@@ -1,0 +1,70 @@
+{% load custom_tags %}
+
+<thead class="border-bottom">
+<tr>
+    <th><i class="fa fa-home"></i> Treasury</th>
+    <th>1000</th>
+    <th>750</th>
+    <th>500</th>
+    <th>400</th>
+    <th>300</th>
+    <th>250</th>
+    <th>200</th>
+    <th>150</th>
+    <th>100</th>
+</tr>
+</thead>
+<tbody>
+{% for object_ in object_list %}
+    <tr>
+        <td>
+            <a href="#">
+                <b>{{ object_ }}</b>
+            </a>
+        </td>
+        <td>{{ object_.s1000 }}</td>
+        <td>{{ object_.s750 }}</td>
+        <td>{{ object_.s500 }}</td>
+        <td>{{ object_.s400 }}</td>
+        <td>{{ object_.s300 }}</td>
+        <td>{{ object_.s250 }}</td>
+        <td>{{ object_.s200 }}</td>
+        <td>{{ object_.s150 }}</td>
+        <td>{{ object_.s100 }}</td>
+    </tr>
+{% endfor %}
+</tbody>
+<tfoot class="border-top">
+<tr>
+    <th>
+        <b>
+            QUANTITIES
+        </b>
+    </th>
+    <th>{{ sums.s1000 }}</th>
+    <th>{{ sums.s750 }}</th>
+    <th>{{ sums.s500 }}</th>
+    <th>{{ sums.s400 }}</th>
+    <th>{{ sums.s300 }}</th>
+    <th>{{ sums.s250 }}</th>
+    <th>{{ sums.s200 }}</th>
+    <th>{{ sums.s150 }}</th>
+    <th>{{ sums.s100 }}</th>
+</tr>
+<tr>
+    <th>
+        <b>
+            TOTALS
+        </b>
+    </th>
+    <th>{{ amounts.s1000 }}</th>
+    <th>{{ amounts.s750 }}</th>
+    <th>{{ amounts.s500 }}</th>
+    <th>{{ amounts.s400 }}</th>
+    <th>{{ amounts.s300 }}</th>
+    <th>{{ amounts.s250 }}</th>
+    <th>{{ amounts.s200 }}</th>
+    <th>{{ amounts.s150 }}</th>
+    <th>{{ amounts.s100 }}</th>
+</tr>
+</tfoot>
